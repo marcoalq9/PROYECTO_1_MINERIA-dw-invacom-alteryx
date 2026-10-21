@@ -8,13 +8,13 @@ Universidad Técnica Nacional — Sede San Carlos.
 
 | Integrante | Usuario GitHub | Rol |
 |---|---|---|
-| Marco Andrey López Quesada | @marcoalq9 | |
-| Krisley Endrina Castro Barrantes | | |
-| Juan Daniel Ulate Aguilar | | |
-| Kristel Daniela Ramírez Duarte | | |
+| Marco Andrey López Quesada | @marcoalq9 | Desarrollo |
+| Krisley Endrina Castro Barrantes | | Desarrollo |
+| Juan Daniel Ulate Aguilar | | Desarrollo |
+| Kristel Daniela Ramírez Duarte | | Scrum Master |
 
 - **Coordinador** (nombrado por el profesor):
-- **Scrum Master** (rotativo):
+- **Scrum Master:** Kristel Daniela Ramírez Duarte
 - **Product Owner:** el profesor
 
 ## Estructura del repositorio
@@ -47,7 +47,7 @@ _Los nombres son una propuesta; ajustarlos cuando existan los workflows._
 ## Cómo trabajamos
 
 - **Sprints de una semana.** Cada sprint termina con un entregable concreto en este repo.
-- **Tablero Kanban:** _(enlace al tablero)_
+- **Tablero en Jira:** proyecto `DWI` en https://marcolopezquesada15.atlassian.net (épicas DWI-1 a DWI-9, una por fase).
 - **Commits:** todos los integrantes hacen commits cada semana con sus propios aportes.
 - **Mensajes de commit** en español y en imperativo, por ejemplo: `Agrega workflow de limpieza de clientes`.
 - **Ramas:** una rama por tarea (`feature/dim-tiempo`), fusionada a `main` por pull request.
