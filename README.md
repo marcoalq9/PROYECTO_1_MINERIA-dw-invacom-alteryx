@@ -46,8 +46,9 @@ _Los nombres son una propuesta; ajustarlos cuando existan los workflows._
 
 ## Cómo trabajamos
 
-- **Sprints de una semana.** Cada sprint termina con un entregable concreto en este repo.
-- **Tablero en Jira:** proyecto `DWI` en https://marcolopezquesada15.atlassian.net (épicas DWI-1 a DWI-9, una por fase).
+- **Sprints de una semana.** de miércoles a miércoles. El Sprint Planning es cada miércoles y cada sprint termina con un entregable concreto en este repo.
+- **Daily Asíncrono** por el chat del grupo: que hice, que haré y que me bloquea 
+- **Tablero en Jira:** proyecto `DWI` en https://marcolopezquesada15.atlassian.net 
 - **Commits:** todos los integrantes hacen commits cada semana con sus propios aportes.
 - **Mensajes de commit** en español y en imperativo, por ejemplo: `Agrega workflow de limpieza de clientes`.
 - **Ramas:** una rama por tarea (`feature/dim-tiempo`), fusionada a `main` por pull request.

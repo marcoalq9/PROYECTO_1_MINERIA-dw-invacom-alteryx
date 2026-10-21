@@ -1,8 +1,11 @@
 # Sprint 1
 
-**Fechas:** 20/10/2026 – 27/10/2026
+**Fechas:** 21/10/2026 – 28/10/2026
 **Scrum Master:** Kristel Daniela Ramírez Duarte
+**Sprint planning:** miercóles de cada semana 
 **Objetivo del sprint:** dejar listo el entorno de trabajo del equipo y definir los requisitos del negocio de Invacom Inc S.A.
+**Daily:** asíncronico por el chat del grupo
+
 
 ## Sprint Planning
 
