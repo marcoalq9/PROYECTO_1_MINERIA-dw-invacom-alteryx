@@ -9,9 +9,9 @@ Universidad Técnica Nacional — Sede San Carlos.
 | Integrante | Usuario GitHub | Rol |
 |---|---|---|
 | Marco Andrey López Quesada | @marcoalq9 | |
-| | | |
-| | | |
-| | | |
+| Krisley Endrina Castro Barrantes | | |
+| Juan Daniel Ulate Aguilar | | |
+| Kristel Daniela Ramírez Duarte | | |
 
 - **Coordinador** (nombrado por el profesor):
 - **Scrum Master** (rotativo):
