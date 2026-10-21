@@ -1,0 +1,29 @@
+# Archivos temporales de Office (Excel/Word abiertos)
+~$*
+*.tmp
+
+# Alteryx: archivos temporales y de respaldo
+*.yxmd.bak
+*.yxmc.bak
+*.yxwz.bak
+AlteryxTemp/
+Engine_*/
+
+# Respaldos de bases de datos (demasiado grandes para Git)
+*.bak
+*.mdf
+*.ldf
+*.backup
+
+# Salidas intermedias pesadas (regenerables corriendo el ETL)
+*.yxdb
+datos/salidas/
+
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
