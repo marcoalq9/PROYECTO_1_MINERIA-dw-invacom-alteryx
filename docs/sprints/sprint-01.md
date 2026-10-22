@@ -33,6 +33,21 @@ Tareas tomadas del Product Backlog para este sprint:
 
 ## Daily (resumen)
 
+### DWI-15 — Instalación de Alteryx Designer
+
+**Responsable:** Krisley Castro Barrantes  
+**Fecha:** 21/10/2026
+
+Se realizó la instalación de Alteryx Designer x64, versión **2025.2.1.213 (Patch 6)**, mediante la modalidad Non-Admin Designer, para el desarrollo de los procesos ETL del proyecto.
+Se verificó que la herramienta se instaló correctamente y permite abrir su interfaz.
+
+**Estado: Completado.**
+
+## Sprint Review
+
+Qué se entregó y enlace a los commits:
+
+## Captura del tablero
 
 ## Sprint Review
 
