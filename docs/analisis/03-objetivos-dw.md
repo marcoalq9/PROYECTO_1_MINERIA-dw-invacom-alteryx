@@ -46,7 +46,7 @@
 
 ## Estado de verificación (perfilado, DWI-25)
 
-La fuente oficial del ETL es la base PostgreSQL `pagila_dvd_rental` restaurada del respaldo entregado. El perfilado en Alteryx (`06-perfilado-de-datos.md`) confirmó que los datos permiten cumplir estas metas:
+La fuente oficial del ETL es la base PostgreSQL `pagila_dvd_rental` restaurada del respaldo entregado, el perfilado en Alteryx (`06-perfilado-de-datos.md`) confirmó que los datos permiten cumplir estas metas:
 
 | Objetivo | Meta | Qué mostró el perfilado |
 |---|---|---|
