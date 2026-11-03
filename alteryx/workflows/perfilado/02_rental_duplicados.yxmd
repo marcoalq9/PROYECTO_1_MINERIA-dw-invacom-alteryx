@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='utf-8'?>
+<AlteryxDocument yxmdVer="2025.2" RunE2="T">
+  <Nodes>
+    <Node ToolID="1">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+        <Position x="138" y="114" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Passwords />
+          <File />
+          <FormatSpecificOptions UseDcm="true" Format="23" RecordLimit="">
+            <ReadCentroids>False</ReadCentroids>
+            <Query>SELECT * FROM public.rental</Query>
+            <TableStyle>Quoted</TableStyle>
+            <PostSQL />
+            <CacheData>False</CacheData>
+            <Table />
+            <SessionReadOnly>True</SessionReadOnly>
+            <ReadUncommitted>False</ReadUncommitted>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
+            <NoProgress>True</NoProgress>
+            <PreSQLOnConfig>True</PreSQLOnConfig>
+            <PreSQL />
+          </FormatSpecificOptions>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>Lee rental</Name>
+          <DefaultAnnotationText>dcm:pagila_dvd_rental — Credential_Pagila
+Query=SELECT * FROM public.rental</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field description="PrimaryKey" name="rental_id" source="File: SELECT * FROM public.rental" type="Int32" />
+            <Field name="rental_date" size="19" source="File: SELECT * FROM public.rental" type="DateTime" />
+            <Field name="inventory_id" source="File: SELECT * FROM public.rental" type="Int32" />
+            <Field name="customer_id" source="File: SELECT * FROM public.rental" type="Int16" />
+            <Field name="return_date" size="19" source="File: SELECT * FROM public.rental" type="DateTime" />
+            <Field name="staff_id" source="File: SELECT * FROM public.rental" type="Int16" />
+            <Field name="last_update" size="19" source="File: SELECT * FROM public.rental" type="DateTime" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+    </Node>
+    <Node ToolID="5">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+        <Position x="282" y="114" />
+      </GuiSettings>
+      <Properties>
+        <Configuration joinByRecordPos="False">
+          <JoinInfo connection="Left">
+            <Field field="inventory_id" />
+            <Field field="customer_id" />
+          </JoinInfo>
+          <JoinInfo connection="Right">
+            <Field field="inventory_id" />
+            <Field field="customer_id" />
+          </JoinInfo>
+          <SelectConfiguration>
+            <Configuration outputConnection="Join">
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Right_rental_id" selected="True" rename="Right_rental_id" input="Right_" />
+                <SelectField field="Right_rental_date" selected="True" rename="Right_rental_date" input="Right_" />
+                <SelectField field="Right_inventory_id" selected="True" rename="Right_inventory_id" input="Right_" />
+                <SelectField field="Right_customer_id" selected="True" rename="Right_customer_id" input="Right_" />
+                <SelectField field="Right_return_date" selected="True" rename="Right_return_date" input="Right_" />
+                <SelectField field="Right_staff_id" selected="True" rename="Right_staff_id" input="Right_" />
+                <SelectField field="Right_last_update" selected="True" rename="Right_last_update" input="Right_" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+          </SelectConfiguration>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>Une rental consigo misma por copia y cliente</Name>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
+    </Node>
+    <Node ToolID="6">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+        <Position x="426" y="114" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Expression>[Right_rental_id] &gt; [rental_id] AND Abs(DateTimeDiff([Right_rental_date],[rental_date],"seconds")) &lt;= 1800</Expression>
+          <Mode>Custom</Mode>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>Regla C01: otra fila, ≤ 30 min</Name>
+          <DefaultAnnotationText>[Right_rental_id] &gt; [rental_id] AND Abs(DateTimeDiff([Right_rental_date],[rental...</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+    </Node>
+    <Node ToolID="7">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+        <Position x="570" y="114" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <UniqueFields>
+            <Field field="Right_rental_id" />
+          </UniqueFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>Cada duplicado una vez</Name>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+    </Node>
+    <Node ToolID="8">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="714" y="114" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile />
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>16.044 duplicados esperados</Name>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="1" Connection="Output" />
+      <Destination ToolID="5" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="1" Connection="Output" />
+      <Destination ToolID="5" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="5" Connection="Join" />
+      <Destination ToolID="6" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="6" Connection="True" />
+      <Destination ToolID="7" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="7" Connection="Unique" />
+      <Destination ToolID="8" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <RunWithE2 value="True" />
+    <DefaultTZ value="Local" />
+    <PredictiveToolsCodePage value="1252" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <IsTemplate value="False" />
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>02_rental_duplicados</Name>
+      <Description>DWI-25 · Perfilado 3.2: detecta alquileres duplicados (C01): misma copia, mismo cliente y fechas a 30 minutos o menos.</Description>
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author>Juan Daniel Ulate Aguilar y Kristel Daniela Ramírez Duarte</Author>
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+      <WorkflowId value="8f9aed09-9899-477a-91de-4119be4d5f8b" />
+      <Telemetry>
+        <PreviousWorkflowId value="0afeae79-8270-40a4-911e-572804b9b6a3" />
+        <OriginWorkflowId value="0afeae79-8270-40a4-911e-572804b9b6a3" />
+      </Telemetry>
+      <PlatformWorkflowId value="" />
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>

@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='utf-8'?>
+<AlteryxDocument yxmdVer="2025.2" RunE2="T">
+  <Nodes>
+    <Node ToolID="1">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+        <Position x="138" y="114" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Passwords />
+          <File />
+          <FormatSpecificOptions UseDcm="true" Format="23" RecordLimit="">
+            <ReadCentroids>False</ReadCentroids>
+            <Query>SELECT * FROM public.rental</Query>
+            <TableStyle>Quoted</TableStyle>
+            <PostSQL />
+            <CacheData>False</CacheData>
+            <Table />
+            <SessionReadOnly>True</SessionReadOnly>
+            <ReadUncommitted>False</ReadUncommitted>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
+            <NoProgress>True</NoProgress>
+            <PreSQLOnConfig>True</PreSQLOnConfig>
+            <PreSQL />
+          </FormatSpecificOptions>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>Lee rental</Name>
+          <DefaultAnnotationText>dcm:pagila_dvd_rental — Credential_Pagila
+Query=SELECT * FROM public.rental</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field description="PrimaryKey" name="rental_id" source="File: SELECT * FROM public.rental" type="Int32" />
+            <Field name="rental_date" size="19" source="File: SELECT * FROM public.rental" type="DateTime" />
+            <Field name="inventory_id" source="File: SELECT * FROM public.rental" type="Int32" />
+            <Field name="customer_id" source="File: SELECT * FROM public.rental" type="Int16" />
+            <Field name="return_date" size="19" source="File: SELECT * FROM public.rental" type="DateTime" />
+            <Field name="staff_id" source="File: SELECT * FROM public.rental" type="Int16" />
+            <Field name="last_update" size="19" source="File: SELECT * FROM public.rental" type="DateTime" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+    </Node>
+    <Node ToolID="2">
+      <GuiSettings>
+        <Position x="282" y="114" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Value name="Select Fields">rental_id=True,rental_date=True,inventory_id=True,customer_id=True,return_date=True,staff_id=True,last_update=False</Value>
+          <Value name="Sample Data">False</Value>
+          <Value name="Number">True</Value>
+          <Value name="NNumber">5000</Value>
+          <Value name="Percent">False</Value>
+          <Value name="NPercent">10</Value>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>Perfil de columnas</Name>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+      </Properties>
+      <EngineSettings Macro="Predictive Tools\Field_Summary_Report.yxmc" />
+    </Node>
+    <Node ToolID="4">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="426" y="186" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile />
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Report</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name>Tablero interactivo (salida I)</Name>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="1" Connection="Output" />
+      <Destination ToolID="2" Connection="Field Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Interactive" />
+      <Destination ToolID="4" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <RunWithE2 value="True" />
+    <DefaultTZ value="Local" />
+    <PredictiveToolsCodePage value="1252" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <IsTemplate value="False" />
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>01_rental_columnas</Name>
+      <Description>DWI-25 · Perfilado 3.1: nulos, valores únicos y rangos de cada columna de rental con Field Summary.</Description>
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author>Juan Daniel Ulate Aguilar y Kristel Daniela Ramírez Duarte</Author>
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+      <WorkflowId value="f63fd95f-7518-43fd-a519-f7023b2a0e63" />
+      <Telemetry>
+        <PreviousWorkflowId value="0afeae79-8270-40a4-911e-572804b9b6a3" />
+        <OriginWorkflowId value="0afeae79-8270-40a4-911e-572804b9b6a3" />
+      </Telemetry>
+      <PlatformWorkflowId value="" />
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>
