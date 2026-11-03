@@ -44,4 +44,18 @@
 | Actualización | Que el data warehouse se pueda recargar y los informes se actualicen sin rehacer trabajo | Los flujos de Alteryx corren de principio a fin sin pasos manuales, y Excel se actualiza con "Actualizar todo" |
 | Seguridad | No almacenar datos sensibles sin valor analítico | 0 campos de contraseña, usuario, imagen, correo o teléfono cargados |
 
-Nota: Las cifras de validación (cantidad de filas, totales de ingresos) se fijarán una vez que el equipo confirme la fuente oficial del ETL, ya que los CSV y la base de datos construida con los scripts SQL contienen datos distintos.
+## Estado de verificación (perfilado, DWI-25)
+
+La fuente oficial del ETL es la base PostgreSQL `pagila_dvd_rental` restaurada del respaldo entregado. El perfilado en Alteryx (`06-perfilado-de-datos.md`) confirmó que los datos permiten cumplir estas metas:
+
+| Objetivo | Meta | Qué mostró el perfilado |
+|---|---|---|
+| 1. Control de ingresos | Ingresos del DW = pagos válidos de la fuente | Ingreso válido: **67.406,56** (227.768,87 − 160.352,36 de pagos de duplicados − 9,95 de pagos de otro cliente) |
+| 2. Volumen de alquileres | Una fila por alquiler | **16.044** alquileres válidos después de excluir 16.044 duplicados |
+| 3. Plazos de devolución | No devueltos identificados aparte | 183 alquileres sin devolver tras quitar duplicados; plazo válido (3 a 7 días) en todas las películas |
+| 5. Rentabilidad del catálogo | 100 % de películas con categoría y clasificación | ✔ Cada película tiene exactamente una categoría y una clasificación |
+| 6. Conocimiento de clientes | 100 % de clientes con ciudad y país | ✔ Los 599 clientes llegan a ciudad y país; London se distingue por país |
+| 7. Existencias por tienda | Películas sin copias con 0 | 4.581 copias; 42 películas sin ninguna copia y 479 combinaciones película–tienda sin copias que deben mostrarse con 0 |
+| Confiabilidad | 0 alquileres duplicados | Los 16.044 duplicados quedan identificados con la regla C01 |
+
+Las cifras exactas de validación del DW están en la sección 4 de `07-estrategia-de-limpieza.md`.

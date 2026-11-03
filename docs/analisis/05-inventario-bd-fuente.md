@@ -158,8 +158,8 @@ erDiagram
 | last_name | text | no |  |  |
 | email | text | sí |  | No se carga (dato sensible) |
 | address_id | smallint | no | FK → address.address_id |  |
-| activebool | boolean | no |  | Duplica a `active`; usar solo uno |
-| create_date | date | no |  |  |
+| activebool | boolean | no |  | Duplica a `active`; no se carga (C08). Por ODBC llega a Alteryx como texto `"1"` |
+| create_date | date | no |  | No se carga: los 599 clientes tienen la misma fecha, 14/02/2017 (C09) |
 | last_update | timestamptz | sí |  | Auditoría; no se carga |
 | active | integer | sí |  | Entero 0/1; redundante con `activebool` |
 
@@ -212,7 +212,7 @@ erDiagram
 | Columna | Tipo | Nulo | Llave | Observación |
 |---|---|---|---|---|
 | language_id | integer | no | PK | autoincremental |
-| name | character(20) | no |  | char(20) con espacios a la derecha; aplicar TRIM |
+| name | character(20) | no |  | char(20) con espacios a la derecha; aplicar TRIM (por ODBC llega a Alteryx ya sin espacios, ver perfilado 3.7) |
 | last_update | timestamptz | no |  | Auditoría; no se carga |
 
 #### `payment`
@@ -281,7 +281,7 @@ erDiagram
 | `dim_fecha` | `rental` | Se genera desde `rental_date` (año, trimestre, mes, día, día de la semana) |
 | `dim_tienda` | `store`, `address`, `city`, `country`, `staff` | `store_id`, `city`, `country` y, opcionalmente, el nombre del gerente |
 | `dim_pelicula` | `film`, `film_category`, `category`, `language` | `film_id`, `title`, `release_year`, `rating`, `length`, `rental_duration`, `rental_rate`, `replacement_cost`, `category.name`, `TRIM(language.name)` |
-| `dim_cliente` | `customer`, `address`, `city`, `country` | `customer_id`, `first_name`, `last_name`, `active`, `create_date`, `city`, `country`, `city_id` (para distinguir ciudades con el mismo nombre: hay 1 nombre de ciudad repetido) |
+| `dim_cliente` | `customer`, `address`, `city`, `country` | `customer_id`, `first_name`, `last_name`, `active`, `city`, `country`, `city_id` (para distinguir ciudades con el mismo nombre: hay 1 nombre de ciudad repetido). `create_date` no se carga (C09) |
 | `dim_actor` + `bridge_pelicula_actor` | `actor`, `film_actor` | `actor_id`, `first_name`, `last_name`, `film_id` |
 
 **Campos que no se cargan.** Por la meta de seguridad de `03-objetivos-dw.md` (0 campos sensibles) se excluyen `staff.password`, `staff.username`, `staff.picture`, `staff.email`, `customer.email` y `address.phone`. 
