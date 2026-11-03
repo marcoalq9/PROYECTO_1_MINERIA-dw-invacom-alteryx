@@ -58,10 +58,10 @@ Esta dimensión almacenará la información necesaria para identificar y analiza
 | cliente_key | Generado en el DW | Llave primaria sustituta del cliente. |
 | customer_id | customer | Identificador original del cliente. |
 | nombre_completo | customer | Nombre y apellido del cliente. |
-| estado | customer | Indica si el cliente está activo o inactivo. |
-| distrito | address | Distrito de residencia. |
+| estado | customer.active | Indica si el cliente está activo (1) o inactivo (0). |
 | ciudad | city | Ciudad donde reside el cliente. |
 | pais | country | País donde reside el cliente. |
+| ciudad_pais | Derivado de city y country | Identifica la combinación de ciudad y país para evitar confundir ciudades homónimas. |
 
 ### 3.2. Uso de la dimensión
 
@@ -69,7 +69,7 @@ Permitirá identificar a los clientes que realizan más alquileres, conocer cuá
 
 También se utilizará para estudiar la frecuencia de alquiler y diferenciar clientes nuevos de recurrentes, en conjunto con las fechas registradas en `fact_alquiler`.
 
-Para el estado del cliente se utilizará `customer.activebool`, evitando almacenar dos campos que representan la misma condición.
+Para el estado del cliente se utilizará **`customer.active`**, conforme a la regla C08. El perfilado encontró 15 clientes inactivos con `active = 0`; `activebool` muestra los 599 clientes como activos y no permite distinguirlos. Para la ubicación se generará `ciudad_pais` (C12) y no se cargará `address.district` (C17), ya que no es necesario para las preguntas de negocio y presenta valores vacíos.
 
 No se incluirán contraseñas, teléfonos ni correos electrónicos, ya que no son necesarios para responder las preguntas de negocio y el equipo estableció que no se cargarán datos personales sin valor analítico.
 
@@ -104,7 +104,7 @@ Permitirá identificar las películas más alquiladas, comparar los ingresos por
 
 También permitirá relacionar las películas con las copias disponibles en el inventario de cada tienda.
 
-La categoría se obtendrá relacionando `film` con `film_category` y `category`, mientras que el idioma se obtendrá mediante `language`.
+La categoría se obtendrá relacionando `film` con `film_category` y `category`, mientras que el idioma se obtendrá mediante `language`. El campo `idioma` se conserva como atributo descriptivo, aunque las 1.000 películas tienen inglés como idioma; por ahora no permite comparar películas entre distintos idiomas. En la extracción se aplicará `Trim()` para quitar los espacios de relleno (C11).
 
 El atributo `rango_duracion` será calculado durante la transformación. Los intervalos utilizados para clasificar las películas deberán acordarse antes de implementar el ETL.
 
@@ -124,9 +124,9 @@ Esta dimensión almacenará la información necesaria para identificar las tiend
 |---|---|---|
 | tienda_key | Generado en el DW | Llave primaria sustituta de la tienda. |
 | store_id | store | Identificador original de la tienda. |
-| distrito | address | Distrito donde se encuentra la tienda. |
 | ciudad | city | Ciudad donde está ubicada. |
 | pais | country | País donde está ubicada. |
+| ciudad_pais | Derivado de city y country | Ubicación de la tienda, diferenciando ciudades con el mismo nombre. |
 
 ### 5.2. Uso de la dimensión
 
@@ -136,7 +136,7 @@ Para relacionar un alquiler con su tienda se utilizará `inventory.store_id`, co
 
 Este criterio mantiene la misma definición de tienda en las tablas `fact_alquiler` y `fact_inventario`.
 
-No se utilizará `customer.store_id` ni `staff.store_id` para asignar la tienda del alquiler, de acuerdo con las decisiones de diseño documentadas por el equipo.
+No se utilizará `customer.store_id` ni `staff.store_id` para asignar la tienda del alquiler, de acuerdo con las decisiones de diseño documentadas por el equipo. No se cargará `address.district` (C17); se conservarán ciudad y país, además de `ciudad_pais` para su identificación.
 
 ## 6. Dimensión Actor: dim_actor
 
@@ -205,8 +205,8 @@ Para mantener la calidad de la información se deberán considerar las siguiente
 2. Conservar los identificadores originales para reconocer los registros de Pagila.
 3. Evitar duplicados al combinar las tablas de origen.
 4. Estandarizar los nombres y formatos necesarios durante el ETL.
-5. Eliminar espacios adicionales en valores como el idioma de las películas.
-6. Utilizar las mismas dimensiones Película y Tienda para ambas tablas de hechos.
+5. Utilizar `customer.active` (C08), excluir `address.district` (C17) y generar `ciudad_pais` (C12).
+6. Eliminar espacios adicionales en valores como el idioma de las películas (C11) y utilizar las mismas dimensiones Película y Tienda para ambas tablas de hechos.
 7. Validar que las llaves utilizadas por las tablas de hechos existan en las dimensiones.
 8. Evitar cargar información personal o campos que no sean necesarios para los reportes.
 
@@ -228,7 +228,7 @@ Según el inventario de la base fuente documentado por el equipo, se tienen los 
 
 La dimensión Fecha se generará según el rango de fechas requerido para el análisis, por lo que su cantidad de registros dependerá del calendario definido.
 
-Después de ejecutar el ETL se deberán validar estos conteos, comprobar que no existan llaves duplicadas y verificar que los registros de las tablas de hechos tengan correspondencia con sus dimensiones.
+Después de ejecutar el ETL se deberán validar estos conteos, comprobar que no existan llaves duplicadas y verificar que los registros de las tablas de hechos tengan correspondencia con sus dimensiones. En `dim_cliente` también se deberán identificar los 15 clientes inactivos a partir de `customer.active`, y comprobar que `ciudad_pais` distinga las ciudades homónimas.
 
 Los valores deberán confirmarse utilizando la base de datos oficial definida para el proyecto.
 

@@ -16,7 +16,7 @@ La definición se basa en las preguntas de negocio establecidas por el equipo y 
 
 Esta tabla almacenará la información de los alquileres realizados por los clientes, permitiendo analizar la cantidad de alquileres, los montos pagados y los tiempos de devolución.
 
-**Granularidad:** cada registro representa un único alquiler, identificado por `rental_id`.
+**Granularidad:** cada registro representa un alquiler válido, identificado por `rental_id`, después de excluir los duplicados mediante la regla de limpieza C01. De acuerdo con el perfilado de la fuente oficial, se esperan **16.044 alquileres válidos**.
 
 **Tablas de origen:** `rental`, `payment`, `inventory` y `film`.
 
@@ -36,7 +36,7 @@ Esta tabla almacenará la información de los alquileres realizados por los clie
 | dias_alquilado | Medida | Tiempo transcurrido entre el alquiler y la devolución, expresado en días. |
 | dias_atraso | Medida | Tiempo que supera el plazo permitido de devolución, expresado en días. |
 | devuelto | Indicador | Valor 1 si la película fue devuelta y 0 si no. |
-| devolucion_tardia | Indicador | Valor 1 si la devolución se realizó fuera del plazo permitido y 0 en los demás casos. |
+| devolucion_tardia | Indicador | Valor 1 si la devolución ocurrió fuera del plazo, 0 si se devolvió a tiempo y NULL cuando no se ha devuelto o el plazo de alquiler es inválido. |
 | pago_cero | Indicador | Valor 1 cuando el monto total asociado al alquiler es cero. |
 
 Los campos `inventario_id` y `cantidad_pagos` se proponen para responder las preguntas relacionadas con la rotación del inventario y el promedio por pago.
@@ -46,7 +46,7 @@ Los campos `inventario_id` y `cantidad_pagos` se proponen para responder las pre
 Las medidas se calcularán utilizando la información disponible en las tablas de Pagila:
 
 - **Cantidad:** se asignará el valor 1 a cada alquiler para facilitar su conteo.
-- **Monto:** se sumarán los pagos registrados en `payment` que correspondan a cada `rental_id`. Los alquileres sin pagos asociados tendrán un monto de cero.
+- **Monto:** se sumarán los pagos válidos de `payment` asociados a cada `rental_id`, excluyendo los pagos de alquileres duplicados (C02) y aquellos cuyo `payment.customer_id` no coincida con el cliente del alquiler (C03). Los alquileres sin pagos válidos tendrán un monto de cero.
 - **Cantidad de pagos:** se contará el número de pagos asociados a cada alquiler. Cuando no existan pagos, el valor será cero.
 - **Días alquilados:** se calculará el tiempo transcurrido entre `rental_date` y `return_date`.
 - **Días de atraso:** se comparará la duración real del alquiler con el plazo permitido en `film.rental_duration`.
@@ -54,7 +54,7 @@ Las medidas se calcularán utilizando la información disponible en las tablas d
 - **Devolución tardía:** identificará los alquileres devueltos después del plazo permitido.
 - **Pago cero:** permitirá identificar los alquileres cuyo monto total pagado sea cero.
 
-Los pagos deberán agruparse por `rental_id` antes de incorporarlos a la tabla de hechos, evitando que un alquiler aparezca duplicado cuando tenga varios pagos.
+Los pagos válidos deberán agruparse por `rental_id` antes de incorporarlos a la tabla de hechos, evitando que un alquiler aparezca duplicado cuando tenga varios pagos. Los alquileres y pagos excluidos se registrarán en archivos de rechazos, según la estrategia de limpieza.
 
 ### 2.3. Cálculo de los días de atraso
 
@@ -66,8 +66,9 @@ Se proponen las siguientes reglas:
 
 1. Si la película fue devuelta dentro del plazo permitido, `dias_atraso` será 0.
 2. Si fue devuelta después de la fecha límite, se calculará el tiempo excedido.
-3. Si no existe fecha de devolución, `dias_alquilado` y `dias_atraso` quedarán sin valor y `devuelto` será 0.
-4. El indicador `devolucion_tardia` será 1 únicamente cuando exista una devolución fuera del plazo permitido.
+3. Si no existe fecha de devolución, `dias_alquilado` y `dias_atraso` quedarán sin valor, `devuelto` será 0 y `devolucion_tardia` será NULL (C06).
+4. Si la película se devolvió a tiempo, `devolucion_tardia` será 0; si se devolvió fuera del plazo, será 1.
+5. Si `film.rental_duration` es cero o negativo, `devolucion_tardia` será NULL, según el control C23.
 
 Para conservar la precisión, se propone calcular las duraciones como días transcurridos, incluyendo fracciones de día. Si se requieren días enteros, el criterio de redondeo deberá acordarse antes de implementar el ETL.
 
@@ -91,7 +92,7 @@ Para los análisis mensuales se utilizará la fecha del alquiler, de acuerdo con
 
 Esta tabla permitirá analizar las copias físicas de películas registradas en cada tienda, facilitando el control de existencias y la identificación de películas con poca rotación.
 
-**Granularidad:** cada registro representa una copia física del inventario, identificada por `inventory_id`.
+**Granularidad:** cada registro representa una copia física del inventario, identificada por `inventory_id` (4.581 registros en la fuente oficial). Se conserva este detalle para determinar si cada copia tuvo alquileres durante un trimestre.
 
 **Tabla de origen:** `inventory`.
 
@@ -128,6 +129,8 @@ El cálculo deberá realizarse sin duplicar las copias que tengan varios alquile
 
 Este análisis se basará en el inventario registrado en la fuente. No representa necesariamente la disponibilidad actual de las películas ni un historial completo de existencias, ya que la base no proporciona todos los movimientos de entrada y salida del inventario.
 
+**Películas sin copias:** se mantendrá el grano por copia física en `fact_inventario`. Para que los reportes muestren también las películas con cero copias, se propone una vista en SQL Server (`04_vistas.sql`) que cruce todas las películas con todas las tiendas y complete con 0 las combinaciones sin inventario. De acuerdo con el perfilado, hay 42 películas sin ninguna copia y 479 combinaciones película–tienda sin copias. La vista debe acordarse con el responsable de la carga y de los reportes (DWI-33/DWI-30), sin agregar filas ficticias a la tabla de hechos.
+
 ## 4. Relación con las dimensiones
 
 Las tablas de hechos utilizarán llaves foráneas para relacionarse con las dimensiones del Data Warehouse.
@@ -149,8 +152,8 @@ Las tablas de hechos utilizarán las llaves sustitutas definidas para las dimens
 
 Para mantener la integridad de la información y evitar inconsistencias, se deberán considerar las siguientes reglas:
 
-1. Mantener un único registro por alquiler en `fact_alquiler`.
-2. Agrupar los pagos por `rental_id` antes de incorporarlos a la tabla de hechos.
+1. Mantener un único registro por alquiler válido en `fact_alquiler`, después de aplicar la regla C01 y documentar los duplicados rechazados.
+2. Excluir los pagos inválidos según C02 y C03, y agrupar los pagos válidos por `rental_id` antes de incorporarlos a la tabla de hechos.
 3. Utilizar la tienda registrada en `inventory.store_id`, correspondiente a la propietaria de la copia física.
 4. Utilizar `rental_date` para relacionar los alquileres con `dim_fecha`.
 5. Evitar duplicaciones al relacionar películas con actores.
@@ -192,7 +195,7 @@ Las reglas definitivas deberán validarse con el equipo y el Product Owner antes
 
 Para comprobar que las tablas de hechos se carguen correctamente, se utilizarán los registros de la base de datos Pagila como referencia.
 
-Durante la revisión inicial en pgAdmin 4 se obtuvieron los siguientes conteos:
+Antes de la limpieza, la base local revisada en pgAdmin 4 mostró los siguientes conteos de origen:
 
 | Tabla de origen | Cantidad de registros |
 |---|---:|
@@ -204,16 +207,19 @@ A partir de estos datos, se proponen las siguientes validaciones:
 
 | Validación | Resultado esperado |
 |---|---|
-| Registros en fact_alquiler | 32.088 registros |
-| Registros en fact_inventario | 4.581 registros |
+| Registros en fact_alquiler | **16.044 alquileres válidos**, tras excluir 16.044 duplicados (C01) |
+| Registros en fact_inventario | **4.581 copias físicas**, sin inventar registros para películas sin copias |
+| Pagos válidos | 16.044, después de aplicar C02 y C03 |
+| Ingresos totales | 67.406,56, según la estrategia de limpieza de la fuente oficial |
+| Alquileres sin devolución | 183 registros válidos identificados aparte |
+| Pagos por monto cero | 24 pagos conservados e identificados |
 | Identificadores de alquiler | Sin duplicados de rental_id |
 | Identificadores de inventario | Sin duplicados de inventory_id |
-| Ingresos totales | Coincidir con la suma de pagos válidos de la fuente |
 | Relaciones con dimensiones | Sin llaves foráneas sin correspondencia |
-| Alquileres sin devolución | Identificados correctamente |
-| Conteo de pagos | Coincidir con los pagos asociados a los alquileres |
+| Conteo de pagos | Coincidir con los pagos válidos asociados a cada alquiler |
+| Inventario sin copias | Las combinaciones sin copias se muestran con 0 en la vista de reporte, no como copias ficticias |
 
-Estos valores corresponden a la base local revisada y deberán confirmarse con la fuente oficial utilizada por el equipo para ejecutar el ETL.
+Los conteos originales corresponden a la base local revisada. Los valores esperados después de limpiar se tomaron del documento `docs/analisis/07-estrategia-de-limpieza.md`, elaborado a partir de la fuente oficial `pagila_dvd_rental`. Deben verificarse nuevamente cuando se ejecute el ETL.
 
 Después de cargar el Data Warehouse, será necesario comparar los resultados obtenidos contra la información original para comprobar que no existan registros duplicados, faltantes o montos incorrectos.
 
