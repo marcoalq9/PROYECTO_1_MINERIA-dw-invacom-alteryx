@@ -15,50 +15,50 @@ erDiagram
         INT cliente_key FK
         INT pelicula_key FK
         INT tienda_key FK
-        INT cantidad "siempre 1"
+        TINYINT cantidad "siempre 1"
         DECIMAL monto
         INT cantidad_pagos
         DECIMAL dias_alquilado
         DECIMAL dias_atraso
-        BIT devuelto
-        BIT devolucion_tardia "NULL si no se devolvió o plazo inválido"
-        BIT pago_cero
+        TINYINT devuelto
+        TINYINT devolucion_tardia "NULL si no se devolvió o plazo inválido"
+        TINYINT pago_cero
     }
     fact_inventario {
         INT inventario_id PK "inventory_id"
         INT pelicula_key FK
         INT tienda_key FK
-        INT cantidad_copias "siempre 1"
+        TINYINT cantidad_copias "siempre 1"
     }
     dim_fecha {
         INT fecha_key PK "AAAAMMDD"
         DATE fecha
         TINYINT dia
-        VARCHAR nombre_dia
+        NVARCHAR nombre_dia
         TINYINT mes
-        VARCHAR nombre_mes
+        NVARCHAR nombre_mes
         TINYINT trimestre
         SMALLINT anio
     }
     dim_cliente {
         INT cliente_key PK
         INT customer_id UK
-        VARCHAR nombre_completo
+        NVARCHAR nombre_completo
         BIT estado "customer.active"
-        VARCHAR ciudad
-        VARCHAR pais
-        VARCHAR ciudad_pais
+        NVARCHAR ciudad
+        NVARCHAR pais
+        NVARCHAR ciudad_pais
     }
     dim_pelicula {
         INT pelicula_key PK
         INT film_id UK
-        VARCHAR titulo
+        NVARCHAR titulo
         SMALLINT anio_estreno
-        VARCHAR categoria
+        NVARCHAR categoria
         VARCHAR clasificacion
-        VARCHAR idioma
+        NVARCHAR idioma
         SMALLINT duracion_min
-        VARCHAR rango_duracion
+        NVARCHAR rango_duracion
         DECIMAL tarifa_alquiler
         TINYINT dias_alquiler_permitidos
         DECIMAL costo_reemplazo
@@ -66,14 +66,14 @@ erDiagram
     dim_tienda {
         INT tienda_key PK
         INT store_id UK
-        VARCHAR ciudad
-        VARCHAR pais
-        VARCHAR ciudad_pais
+        NVARCHAR ciudad
+        NVARCHAR pais
+        NVARCHAR ciudad_pais
     }
     dim_actor {
         INT actor_key PK
         INT actor_id UK
-        VARCHAR nombre_completo
+        NVARCHAR nombre_completo
     }
     bridge_pelicula_actor {
         INT pelicula_key PK,FK
