@@ -7,7 +7,7 @@
 
 La tienda de cada alquiler se toma de `inventory.store_id`, es decir, la tienda dueña de la copia que se alquiló.
 
-La base tiene otras dos formas de asignar una tienda a un alquiler, y ninguna coincide con la de la copia:
+La base tiene otras dos formas de asignar una tienda a un alquiler, y ninguna coincide con la de la copia. Los porcentajes se calculan sobre los 16 044 alquileres válidos, sin los duplicados de C01:
 
 | Alternativa | Coincide con la tienda de la copia |
 |---|---|
@@ -20,8 +20,8 @@ Se usa la tienda de la copia porque es la que realmente tuvo la película en su 
 
 La dimensión Fecha se une al hecho por `rental.rental_date`. La fecha de pago (`payment.payment_date`) se descarta porque no corresponde al momento real del cobro:
 
-- El **100 %** de los pagos está fechado en **2017**.
-- El **98,9 %** de los alquileres (31 724 de 32 088) es de **2005**.
+- El **100 %** de los pagos válidos (sin C02 ni C03) está fechado en **2017**.
+- El **98,9 %** de los alquileres válidos (15 862 de 16 044) es de **2005**.
 - La mediana entre la fecha del alquiler y la fecha de su pago es de unos **11,7 años**.
 
 Si se usara la fecha de pago, casi todos los ingresos aparecerían en 2017, aunque los alquileres ocurrieron en 2005.
