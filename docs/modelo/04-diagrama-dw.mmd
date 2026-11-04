@@ -1,0 +1,81 @@
+erDiagram
+    dim_fecha ||--o{ fact_alquiler : "fecha_key"
+    dim_cliente ||--o{ fact_alquiler : "cliente_key"
+    dim_tienda ||--o{ fact_alquiler : "tienda_key"
+    dim_pelicula ||--o{ fact_alquiler : "pelicula_key"
+    dim_tienda ||--o{ fact_inventario : "tienda_key"
+    dim_pelicula ||--o{ fact_inventario : "pelicula_key"
+    dim_pelicula ||--o{ bridge_pelicula_actor : "pelicula_key"
+    dim_actor ||--o{ bridge_pelicula_actor : "actor_key"
+
+    fact_alquiler {
+        INT alquiler_id PK "rental_id"
+        INT inventario_id "inventory_id"
+        INT fecha_key FK
+        INT cliente_key FK
+        INT pelicula_key FK
+        INT tienda_key FK
+        INT cantidad "siempre 1"
+        DECIMAL monto
+        INT cantidad_pagos
+        DECIMAL dias_alquilado
+        DECIMAL dias_atraso
+        BIT devuelto
+        BIT devolucion_tardia "NULL si no se devolvió o plazo inválido"
+        BIT pago_cero
+    }
+    fact_inventario {
+        INT inventario_id PK "inventory_id"
+        INT pelicula_key FK
+        INT tienda_key FK
+        INT cantidad_copias "siempre 1"
+    }
+    dim_fecha {
+        INT fecha_key PK "AAAAMMDD"
+        DATE fecha
+        TINYINT dia
+        VARCHAR nombre_dia
+        TINYINT mes
+        VARCHAR nombre_mes
+        TINYINT trimestre
+        SMALLINT anio
+    }
+    dim_cliente {
+        INT cliente_key PK
+        INT customer_id UK
+        VARCHAR nombre_completo
+        BIT estado "customer.active"
+        VARCHAR ciudad
+        VARCHAR pais
+        VARCHAR ciudad_pais
+    }
+    dim_pelicula {
+        INT pelicula_key PK
+        INT film_id UK
+        VARCHAR titulo
+        SMALLINT anio_estreno
+        VARCHAR categoria
+        VARCHAR clasificacion
+        VARCHAR idioma
+        SMALLINT duracion_min
+        VARCHAR rango_duracion
+        DECIMAL tarifa_alquiler
+        TINYINT dias_alquiler_permitidos
+        DECIMAL costo_reemplazo
+    }
+    dim_tienda {
+        INT tienda_key PK
+        INT store_id UK
+        VARCHAR ciudad
+        VARCHAR pais
+        VARCHAR ciudad_pais
+    }
+    dim_actor {
+        INT actor_key PK
+        INT actor_id UK
+        VARCHAR nombre_completo
+    }
+    bridge_pelicula_actor {
+        INT pelicula_key PK,FK
+        INT actor_key PK,FK
+    }
