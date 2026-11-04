@@ -288,4 +288,3 @@ erDiagram
 
 Tampoco se cargan, porque no tienen valor analítico, `film.fulltext`, `film.description`, las columnas `last_update`, `address.address`, `address.address2` y `address.postal_code`.
 
-
