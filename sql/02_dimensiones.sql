@@ -67,8 +67,8 @@ CREATE TABLE dbo.dim_pelicula (
     film_id                  INT           NOT NULL,  -- llave de negocio (Pagila)
     titulo                   NVARCHAR(255) NOT NULL,
     anio_estreno             SMALLINT      NULL,
-    categoria                NVARCHAR(25)  NOT NULL,
-    clasificacion            VARCHAR(5)    NULL,
+    categoria                NVARCHAR(25)  NOT NULL,  -- "Sin categoría" si no tiene (C21)
+    clasificacion            NVARCHAR(20)  NOT NULL,  -- "Sin clasificación" si viene nula (C22)
     idioma                   NVARCHAR(20)  NOT NULL,  -- con Trim() (C11)
     duracion_min             SMALLINT      NULL,
     rango_duracion           NVARCHAR(20)  NULL,      -- intervalos por acordar antes del ETL
@@ -77,7 +77,7 @@ CREATE TABLE dbo.dim_pelicula (
     costo_reemplazo          DECIMAL(5,2)  NOT NULL,
     CONSTRAINT PK_dim_pelicula PRIMARY KEY (pelicula_key),
     CONSTRAINT UQ_dim_pelicula_film_id UNIQUE (film_id),
-    CONSTRAINT CK_dim_pelicula_clasificacion CHECK (clasificacion IN ('G', 'PG', 'PG-13', 'R', 'NC-17'))
+    CONSTRAINT CK_dim_pelicula_clasificacion CHECK (clasificacion IN (N'G', N'PG', N'PG-13', N'R', N'NC-17', N'Sin clasificación'))
 );
 GO
 
