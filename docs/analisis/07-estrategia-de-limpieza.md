@@ -2,12 +2,12 @@
 
 > Jira: DWI-26 · Responsable: Kristel Ramírez
 > Fuente: base `pagila_dvd_rental` restaurada del respaldo entregado. El detalle de tablas y campos está en `05-inventario-bd-fuente.md`.
-
+> Los archivos que entrega `02_limpieza.yxmd` y sus columnas están en `docs/etl/01-contrato-archivos-limpios.md`. Si este documento y el contrato no coinciden, manda el contrato.
 
 ## 1. Reglas generales
 
 1. **La base fuente no se modifica.** Toda la limpieza se hace en los flujos de Alteryx.
-2. **Nada se borra en silencio.** Lo que se excluye va a un archivo de rechazos con el código del problema (por ejemplo, `C01`).
+2. **Nada se borra en silencio.** Lo que se excluye va a `alteryx/datos/limpio/rechazos.yxdb` con el código del problema (por ejemplo, `C01`). Las columnas están en el contrato de archivos limpios.
 3. **Si el dato es real pero especial, se marca.** No se elimina: se le agrega una bandera, como `devuelto = 0` en un alquiler sin devolver.
 4. **Lo que no llega al DW no se limpia.** Esos campos simplemente no se cargan.
 5. **Cada regla se aplica en un solo flujo.** La columna *Flujo* de la matriz dice dónde. Si una regla se aplica después de `02_limpieza`, este flujo solo debe entregar el dato intacto para que el siguiente la pueda aplicar.
@@ -71,7 +71,9 @@ Los 16.044 pagos de los duplicados suman 160.352,36, más del doble de los ingre
 
 ### C03 · Pagos de otro cliente
 
-El alquiler 4591 es del cliente 182, pero tiene 6 pagos de clientes distintos. Se deja solo el del cliente 182 (3,99) y los otros 5 van a rechazos. Así cada alquiler queda con un solo pago y no se le suman ingresos a clientes que no alquilaron.
+El alquiler 4591 es del cliente 182, pero tiene 6 pagos de clientes distintos. La regla es general: se conserva un pago solo si su `customer_id` coincide con el del alquiler, sin filtrar por número de alquiler. Hoy deja solo el del cliente 182 (3,99) y manda los otros 5 a rechazos. Así cada alquiler queda con un solo pago y no se le suman ingresos a clientes que no alquilaron.
+
+**En Alteryx (02):** *Join* de `payment` con los alquileres válidos por `rental_id` → *Filter* `[customer_id] = [Right_customer_id]`; la salida **F** va a rechazos con `C03`.
 
 ### C04 · Pagos en 0
 
@@ -148,7 +150,7 @@ Salieron de revisar qué datos necesita cada pregunta.
 | Pagos en 0 | 24 | `pago.yxdb` |
 | Clientes inactivos | 15 | `cliente.yxdb` (`estado` = False) |
 | Actores con ID en el nombre | 2 (Susan Davis 101 y 110) | `actor.yxdb` |
-| Registros en rechazos | 32.093 (C01 + C02 + C03) | Archivo de rechazos de 02 |
+| Registros en rechazos | 32.093 (C01: 16.044 · C02: 16.044 · C03: 5) | `rechazos.yxdb` |
 | Películas con categoría y clasificación | 100 % | `pelicula.yxdb` |
 | Clientes con ciudad y país | 100 % | `cliente.yxdb` |
 | Copias de inventario | 4.581 (tienda 1: 2.270; tienda 2: 2.311) | `inventario.yxdb` y `fact_inventario` |
