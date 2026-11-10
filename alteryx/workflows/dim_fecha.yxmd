@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="2025.2" RunE2="T">
+  <Nodes>
+    <Node ToolID="1">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.GenerateRows.GenerateRows">
+        <Position x="54" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <UpdateField value="False" />
+          <UpdateField_Name />
+          <CreateField_Name>fecha</CreateField_Name>
+          <CreateField_Type>Date</CreateField_Type>
+          <CreateField_Size>10</CreateField_Size>
+          <Expression_Init>ToDate("2005-05-24")</Expression_Init>
+          <Expression_Cond>[fecha] &lt;= ToDate("2017-02-14")</Expression_Cond>
+          <Expression_Loop>DateTimeAdd([fecha], 1, "days")</Expression_Loop>
+          <Expression>ToDate("2005-05-24")[fecha] &lt;= ToDate("2017-02-14")DateTimeAdd([fecha], 1, "days")</Expression>
+          <RecordCount value="4285" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxGenerateRows" />
+    </Node>
+    <Node ToolID="2">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+        <Position x="174" y="102" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <FormulaFields>
+            <FormulaField expression="ToNumber(DateTimeFormat([fecha], &quot;%Y%m%d&quot;))" field="fecha_key" size="4" type="Int32" enabled="true" />
+            <FormulaField expression="DateTimeDay([fecha])" field="dia" size="1" type="Byte" enabled="true" />
+            <FormulaField expression="DateTimeFormat([fecha], &quot;%A&quot;, &quot;Spanish&quot;)" field="nombre_dia" size="10" type="V_WString" enabled="true" />
+            <FormulaField expression="DateTimeMonth([fecha])" field="mes" size="1" type="Byte" enabled="true" />
+            <FormulaField expression="DateTimeFormat([fecha], &quot;%B&quot;, &quot;Spanish&quot;)" field="nombre_mes" size="10" type="V_WString" enabled="true" />
+            <FormulaField expression="DateTimeQuarter([fecha])" field="trimestre" size="1" type="Byte" enabled="true" />
+            <FormulaField expression="DateTimeYear([fecha])" field="anio" size="2" type="Int16" enabled="true" />
+          </FormulaFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>fecha_key = ToNumber(DateTimeFormat([fecha], "%Y%m%d"))
+dia = DateTimeDay([fecha...</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+    </Node>
+    <Node ToolID="3">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="318" y="102" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="True" />
+          <CommaDecimal value="False" />
+          <SelectFields>
+            <SelectField field="fecha_key" selected="True" />
+            <SelectField field="fecha" selected="True" />
+            <SelectField field="dia" selected="True" />
+            <SelectField field="nombre_dia" selected="True" />
+            <SelectField field="mes" selected="True" />
+            <SelectField field="nombre_mes" selected="True" />
+            <SelectField field="trimestre" selected="True" />
+            <SelectField field="anio" selected="True" />
+            <SelectField field="*Unknown" selected="False" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+    <Node ToolID="4">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="426" y="102" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\Users\kriiz\AppData\Local\Temp\Alteryx\Engine_18420_2b04bb08c51d42178e5739781fd85b4c_\Engine_18420_d099f64428174b069c87d5d38e2d1a64~.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="5">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+        <Position x="378" y="162" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <File />
+          <Passwords />
+          <Disable>False</Disable>
+          <FormatSpecificOptions UseDcm="true" MaxRecords="" Format="23">
+            <SpatialObjSize>8000</SpatialObjSize>
+            <TableStyle>Quoted</TableStyle>
+            <TransactionMessages>False</TransactionMessages>
+            <Geometry>True</Geometry>
+            <Table>dbo.dim_fecha</Table>
+            <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
+            <OutputOption>Append</OutputOption>
+            <Connection DcmType="ConnectionId" DcmTitle="Microsoft SQL Server ODBC DSN-less — SQL_Invacom_Local" DcmSchemaId="database-odbc-mssql">e65fce4e-e2f4-433c-8257-2b617b3d02bd</Connection>
+            <Projection />
+            <PostSQL />
+            <TransactionSize>10000</TransactionSize>
+            <PreSQL />
+          </FormatSpecificOptions>
+          <MultiFile value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>dcm:Microsoft SQL Server ODBC DSN-less — SQL_Invacom_Local
+Table=dbo.dim_fecha</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="1" Connection="Output" />
+      <Destination ToolID="2" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="3" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="4" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="5" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <RunWithE2 value="True" />
+    <DefaultTZ value="Local" />
+    <PredictiveToolsCodePage value="1252" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <IsTemplate value="False" />
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>dim_fecha</Name>
+      <Description />
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author />
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+      <WorkflowId value="3cea2465-2e2c-427b-b28d-033c2e4d834f" />
+      <Telemetry>
+        <PreviousWorkflowId value="fe06857b-ec98-4901-9cbb-d3742306046a" />
+        <OriginWorkflowId value="fe06857b-ec98-4901-9cbb-d3742306046a" />
+      </Telemetry>
+      <PlatformWorkflowId value="" />
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>
