@@ -128,7 +128,7 @@ dia = DateTimeDay([fecha...</DefaultAnnotationText>
             <Projection />
             <PostSQL />
             <TransactionSize>10000</TransactionSize>
-            <PreSQL />
+            <PreSQL>DELETE FROM dbo.fact_alquiler; DELETE FROM dbo.dim_fecha;</PreSQL>
           </FormatSpecificOptions>
           <MultiFile value="False" />
         </Configuration>

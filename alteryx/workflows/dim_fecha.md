@@ -65,12 +65,12 @@ Los registros se cargaron mediante Output Data en:
 - **Motor:** SQL Server
 - **Base de datos:** `DW_Invacom`
 - **Tabla:** `dbo.dim_fecha`
-- **Método:** Append Existing
+- **Método:** Append Existing, con *Pre Create SQL Statement*: `DELETE FROM dbo.fact_alquiler; DELETE FROM dbo.dim_fecha;`
 - **Mapeo:** By Field Name
 
 La conexión se configuró mediante ODBC en Alteryx. Como utiliza una conexión local, cada integrante debe configurar la suya antes de ejecutar el flujo en otro equipo.
 
-Antes de realizar una nueva carga, se debe comprobar que la tabla esté vacía para evitar registros duplicados.
+Antes de cargar, la instrucción SQL previa vacía `fact_alquiler` (que referencia las fechas) y `dim_fecha`, así que el flujo se puede volver a ejecutar sin duplicar fechas. No se usa *Delete Data & Append* porque Alteryx lo ejecuta como `TRUNCATE`, y SQL Server no permite `TRUNCATE` en una tabla referenciada por llaves foráneas.
 
 ## Validación
 
@@ -117,8 +117,7 @@ El flujo está preparado para cargar las fechas en `dbo.dim_fecha`, pero cada in
 
 - La carga realizada corresponde únicamente a la base de datos local donde se ejecutó el flujo.
 - Los registros no se transfieren automáticamente al SQL Server de los demás integrantes.
-- Antes de ejecutar el flujo se debe verificar que `dbo.dim_fecha` esté vacía.
-- No se debe ejecutar nuevamente sobre una tabla que ya contenga las 4.285 fechas, porque se producirán errores por llaves duplicadas.
+- El flujo vacía `dbo.dim_fecha` antes de cargar, por lo que se puede ejecutar varias veces. Al hacerlo también vacía `fact_alquiler`, que debe volver a cargarse después con `04_hechos`.
 - No se debe volver a ejecutar `sql/02_dimensiones.sql` sobre una base con datos cargados, porque ese script elimina y vuelve a crear las tablas.
 
 ### Resultados obtenidos
