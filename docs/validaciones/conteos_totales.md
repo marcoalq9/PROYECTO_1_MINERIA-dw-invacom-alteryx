@@ -1,9 +1,9 @@
 # Validación de conteos y totales
 
 Responsable: Juan Daniel Ulate Aguilar
-Fecha:
-Base fuente:
-Base del DW:
+Fecha: 12/11/2026
+Base fuente: pagila_dvd_rental
+Base del DW: DW_Invacom
 
 ## Objetivo
 
@@ -43,16 +43,6 @@ Los valores coinciden con lo documentado para la limpieza.
 Queda pendiente compararlos con el DW.
 
 ![Pagos limpios](evidencias/02_pagos_limpios.png)
-
-## Resultados
-
-| Control | Fuente limpia | DW | Diferencia | Estado |
-|---|---:|---:|---:|---|
-| Alquileres válidos | | | | Pendiente |
-| Pagos válidos | | | | Pendiente |
-| Ingresos totales | | | | Pendiente |
-| Copias de inventario | | | | Pendiente |
-| Relaciones película–actor | | | | Pendiente |
 
 
 ## Comparación de la fuente limpia contra el DW
