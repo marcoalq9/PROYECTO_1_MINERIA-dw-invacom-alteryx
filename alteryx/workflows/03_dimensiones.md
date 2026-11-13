@@ -8,7 +8,9 @@ Carga `dim_cliente`, `dim_pelicula`, `dim_tienda` y `dim_actor` en `DW_Invacom` 
 
 1. Haber corrido `01_extraccion` y `02_limpieza`, que dejan los archivos en `alteryx/datos/limpio/`.
 2. Tener creadas las tablas con `sql/01_crear_bd.sql`, `02_dimensiones.sql` y `03_hechos.sql`.
-3. Tener un DSN de Windows llamado `DW_Invacom` (ODBC Driver 18 for SQL Server, servidor `localhost`, base `DW_Invacom`, autenticación de Windows y **Trust server certificate** marcado). El flujo usa ese DSN directamente, así que funciona en cualquier máquina que lo tenga con ese nombre.
+3. Tener un DSN de Windows llamado `DW_Invacom` (ODBC Driver 18 for SQL Server, servidor `localhost`, base `DW_Invacom`, autenticación de Windows, **Change the default database to** = `DW_Invacom` y **Trust server certificate** marcado). El flujo usa ese DSN directamente, así que funciona en cualquier máquina que lo tenga con ese nombre.
+
+   **La base predeterminada del DSN es obligatoria.** Las tablas y los `DELETE` previos se escriben como `dbo.<tabla>`, sin el nombre de la base; si el DSN queda en `master`, la carga falla con *Invalid object name 'dbo.fact_alquiler'*. En la prueba del DSN debe aparecer `Database: DW_Invacom`. Después de cambiar el DSN hay que cerrar y volver a abrir Alteryx. Aplica también a `dim_fecha` y `04_hechos`.
 
 ## Qué hace
 

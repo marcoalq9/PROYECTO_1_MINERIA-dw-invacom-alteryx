@@ -1,4 +1,5 @@
--- Identificacion de la base de datos y sus tablas
+-- Identificacion de la base de datos y sus tablas, utilizado antes de la limpieza de datos para poder contar los datos,
+-- se ejecutar en PostgreSQL (pgAdmin), base pagila_dvd_rental. NO en SQL Server.
 SELECT
     current_database() AS base_de_datos,
     table_schema AS esquema,

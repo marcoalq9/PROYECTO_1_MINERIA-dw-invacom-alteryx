@@ -68,7 +68,7 @@ Los registros se cargaron mediante Output Data en:
 - **Método:** Append Existing, con *Pre Create SQL Statement*: `DELETE FROM dbo.fact_alquiler; DELETE FROM dbo.dim_fecha;`
 - **Mapeo:** By Field Name
 
-La conexión se configuró mediante ODBC en Alteryx. Como utiliza una conexión local, cada integrante debe configurar la suya antes de ejecutar el flujo en otro equipo.
+La conexión usa el DSN de Windows `DW_Invacom` (ODBC Driver 18 for SQL Server), igual que `03_dimensiones` y `04_hechos`, así que el flujo funciona en cualquier equipo que tenga ese DSN creado, sin configurar una conexión DCM propia. El flujo tiene activada la opción *Cancel running workflow on error*.
 
 Antes de cargar, la instrucción SQL previa vacía `fact_alquiler` (que referencia las fechas) y `dim_fecha`, así que el flujo se puede volver a ejecutar sin duplicar fechas. No se usa *Delete Data & Append* porque Alteryx lo ejecuta como `TRUNCATE`, y SQL Server no permite `TRUNCATE` en una tabla referenciada por llaves foráneas.
 
@@ -111,7 +111,7 @@ Este formato debe mantenerse igual en ambos flujos para que la relación funcion
 
 La tabla `dim_fecha` debe estar cargada antes de insertar los registros de `fact_alquiler`, ya que esta última utiliza `fecha_key` como llave foránea.
 
-El flujo está preparado para cargar las fechas en `dbo.dim_fecha`, pero cada integrante deberá configurar su propia conexión a SQL Server.
+El flujo está preparado para cargar las fechas en `dbo.dim_fecha` en cualquier equipo que tenga el DSN `DW_Invacom`.
 
 ### Consideraciones importantes
 

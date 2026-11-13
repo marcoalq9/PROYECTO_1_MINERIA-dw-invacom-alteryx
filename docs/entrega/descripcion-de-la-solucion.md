@@ -61,7 +61,7 @@ Los problemas que más afectan los resultados son:
 | C14 | Nombres y títulos en mayúsculas | 1 799 | Se convierten a mayúscula inicial |
 | C13 | Dos actrices con el mismo nombre | 2 | Se agrega su identificador al nombre |
 
-El hallazgo principal fue C01: la mitad de los alquileres eran copias de otros. Sin esa regla, los ingresos serían 227 758,92 en lugar de 67 406,56.
+El hallazgo principal fue C01: la mitad de los alquileres eran copias de otros. Sin la regla C01 (y sus pagos C02), los ingresos serían 227 758,92 en lugar de 67 406,56.
 
 ## Validación
 

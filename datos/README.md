@@ -2,7 +2,7 @@
 
 Este documento describe la restauración de la base de datos fuente del proyecto, la configuración de la conexión ODBC y su utilización desde Alteryx.
 
-**Estado actual:** el test de conexión desde el controlador ODBC fue exitoso. La lectura de datos desde Alteryx está pendiente de confirmación, porque el último intento mostró un error relacionado con el DSN o el controlador.
+**Estado actual:** resuelto. La conexión funciona desde Alteryx: `01_extraccion` lee las 14 tablas (32.088 alquileres, 32.093 pagos, 4.581 copias) y el ETL completo se ejecutó el 12/11/2026 (`docs/validaciones/ejecucion_ETL.md`). Las secciones 10 y 12 se conservan como registro de las incidencias.
 
 ## 1. Arquitectura del proyecto
 
@@ -424,7 +424,7 @@ Comprobaciones pendientes:
 
 Si el error continúa, comparar las capturas del DSN registrado en Windows y del campo ODBC DSN en Alteryx.
 
-**Estado de la incidencia:** pendiente de resolución confirmada.
+**Estado de la incidencia:** resuelta; Alteryx lee la fuente mediante la conexión DCM a `pagila_local`.
 
 ## 11. Reglas para el repositorio
 
@@ -450,8 +450,8 @@ La documentación debe permitir que cada integrante reproduzca la preparación l
 | Identificar los scripts y el orden de ejecución | Documentado. |
 | Identificar la configuración local de base y DSN | Confirmado mediante capturas. |
 | Probar la conexión desde el controlador ODBC | Exitoso, confirmado por el usuario. |
-| Registrar conteos y fechas reales de la base restaurada | Pendiente de evidencia. |
-| Configurar y probar la conexión en Alteryx | En curso; último intento con error. |
-| Leer 599 clientes desde Input Data | Pendiente de confirmación. |
-| Diseñar y cargar el DW en SQL Server | Etapa posterior. |
-| Construir los reportes de Excel | Etapa posterior. |
+| Registrar conteos y fechas reales de la base restaurada | Hecho (`docs/validaciones/conteos_totales.md`). |
+| Configurar y probar la conexión en Alteryx | Hecho. |
+| Leer 599 clientes desde Input Data | Hecho. |
+| Diseñar y cargar el DW en SQL Server | Hecho (`sql/` y `alteryx/workflows/`). |
+| Construir los reportes de Excel | Hecho (`reportes/reportes_invacom.xlsx`). |

@@ -34,7 +34,7 @@
 | 12 | `city` | Geografía | 600 | 4 | `city_id` | Atributo de `dim_cliente` / `dim_tienda` |
 | 13 | `country` | Geografía | 109 | 3 | `country_id` | Atributo de `dim_cliente` / `dim_tienda` |
 | 14 | `store` | Maestro | 2 | 4 | `store_id` | `dim_tienda` |
-| 15 | `staff` | Maestro | 5 | 11 | `staff_id` | No se usa en las 10 preguntas; solo el nombre del gerente como atributo opcional de `dim_tienda` |
+| 15 | `staff` | Maestro | 5 | 11 | `staff_id` | No se usa: el modelo no tiene dimensión de empleado ni atributo de gerente |
 
 `payment` es una tabla particionada. Sus datos físicos están en 6 particiones mensuales, de `payment_p2017_01` a `payment_p2017_06` (rango del 01/01/2017 al 30/06/2017). Para el ETL se lee siempre la tabla madre `payment`, nunca las particiones por separado.
 

@@ -38,7 +38,7 @@
 
 | Área | Objetivo | Meta medible |
 |---|---|---|
-| Autoservicio | Que los usuarios respondan sus preguntas sin depender del equipo técnico | preguntas respondidas en Excel con tablas dinámicas y filtros de fecha y tienda |
+| Autoservicio | Que los usuarios respondan sus preguntas sin depender del equipo técnico | 12 de 12 preguntas respondidas en Excel con tablas dinámicas y filtros de fecha y tienda |
 | Confiabilidad | Que ningún informe muestre montos o conteos inflados | 0 alquileres duplicados y 0 llaves sin correspondencia en las tablas de hechos |
 | Calidad de datos | Tratar todos los problemas detectados en la fuente y dejar evidencia | 100 % de los hallazgos de la matriz de calidad con una regla aplicada; registros excluidos guardados en un archivo de rechazos |
 | Actualización | Que el data warehouse se pueda recargar y los informes se actualicen sin rehacer trabajo | Los flujos de Alteryx corren de principio a fin sin pasos manuales, y Excel se actualiza con "Actualizar todo" |
