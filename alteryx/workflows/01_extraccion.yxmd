@@ -11,14 +11,15 @@
           <File />
           <FormatSpecificOptions UseDcm="true" Format="23" RecordLimit="">
             <ReadCentroids>False</ReadCentroids>
-            <Query>SELECT rental_id, rental_date, inventory_id, customer_id, return_date, staff_id FROM public.rental</Query>
+            <Query>SELECT rental_id, rental_date AT TIME ZONE 'UTC' AS rental_date, inventory_id, customer_id, return_date AT TIME ZONE 'UTC' AS return_date,staff_id
+FROM public.rental</Query>
             <TableStyle>Quoted</TableStyle>
             <PostSQL />
             <CacheData>False</CacheData>
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -26,17 +27,18 @@
         </Configuration>
         <Annotation DisplayMode="0">
           <Name>Extrae rental</Name>
-          <DefaultAnnotationText>dcm:Fuente_Pagila — Credencial_Pagila</DefaultAnnotationText>
+          <DefaultAnnotationText>dcm:pagila_dvd_rental — Credential_Pagila
+Query=SELECT rental_id, rental_dat...</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
         <MetaInfo connection="Output">
           <RecordInfo>
-            <Field description="PrimaryKey" name="rental_id" source="File: SELECT rental_id, rental_date, inventory_id, customer_id, return_date, staff_id FROM public.rental" type="Int32" />
-            <Field name="rental_date" size="19" source="File: SELECT rental_id, rental_date, inventory_id, customer_id, return_date, staff_id FROM public.rental" type="DateTime" />
-            <Field name="inventory_id" source="File: SELECT rental_id, rental_date, inventory_id, customer_id, return_date, staff_id FROM public.rental" type="Int32" />
-            <Field name="customer_id" source="File: SELECT rental_id, rental_date, inventory_id, customer_id, return_date, staff_id FROM public.rental" type="Int16" />
-            <Field name="return_date" size="19" source="File: SELECT rental_id, rental_date, inventory_id, customer_id, return_date, staff_id FROM public.rental" type="DateTime" />
-            <Field name="staff_id" source="File: SELECT rental_id, rental_date, inventory_id, customer_id, return_date, staff_id FROM public.rental" type="Int16" />
+            <Field name="rental_id" source="File: SELECT rental_id, rental_date AT TIME ZONE 'UTC' AS rental_date, inventory_id, customer_id, return_date AT TIME ZONE 'UTC' AS return_date,staff_id&#xA;FROM public.rental" type="Int32" />
+            <Field name="rental_date" size="19" source="File: SELECT rental_id, rental_date AT TIME ZONE 'UTC' AS rental_date, inventory_id, customer_id, return_date AT TIME ZONE 'UTC' AS return_date,staff_id&#xA;FROM public.rental" type="DateTime" />
+            <Field name="inventory_id" source="File: SELECT rental_id, rental_date AT TIME ZONE 'UTC' AS rental_date, inventory_id, customer_id, return_date AT TIME ZONE 'UTC' AS return_date,staff_id&#xA;FROM public.rental" type="Int32" />
+            <Field name="customer_id" source="File: SELECT rental_id, rental_date AT TIME ZONE 'UTC' AS rental_date, inventory_id, customer_id, return_date AT TIME ZONE 'UTC' AS return_date,staff_id&#xA;FROM public.rental" type="Int16" />
+            <Field name="return_date" size="19" source="File: SELECT rental_id, rental_date AT TIME ZONE 'UTC' AS rental_date, inventory_id, customer_id, return_date AT TIME ZONE 'UTC' AS return_date,staff_id&#xA;FROM public.rental" type="DateTime" />
+            <Field name="staff_id" source="File: SELECT rental_id, rental_date AT TIME ZONE 'UTC' AS rental_date, inventory_id, customer_id, return_date AT TIME ZONE 'UTC' AS return_date,staff_id&#xA;FROM public.rental" type="Int16" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -64,9 +66,6 @@
           <DefaultAnnotationText>rental.yxdb</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
@@ -76,7 +75,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_7935f068b1cf44e9a36bb9859a17e67d~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_055725c0c03f432b999bd0c9d3821253~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -108,14 +107,16 @@
           <File />
           <FormatSpecificOptions UseDcm="true" Format="23" RecordLimit="">
             <ReadCentroids>False</ReadCentroids>
-            <Query>SELECT payment_id, customer_id, staff_id, rental_id, amount, payment_date FROM public.payment</Query>
+            <Query>SELECT payment_id, customer_id, staff_id, rental_id, amount,
+       payment_date AT TIME ZONE 'UTC' AS payment_date
+FROM public.payment</Query>
             <TableStyle>Quoted</TableStyle>
             <PostSQL />
             <CacheData>False</CacheData>
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -123,17 +124,18 @@
         </Configuration>
         <Annotation DisplayMode="0">
           <Name>Extrae payment</Name>
-          <DefaultAnnotationText>public.payment</DefaultAnnotationText>
+          <DefaultAnnotationText>dcm:pagila_dvd_rental — Credential_Pagila
+Query=SELECT payment_id, customer_...</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
         <MetaInfo connection="Output">
           <RecordInfo>
-            <Field name="payment_id" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount, payment_date FROM public.payment" type="Int32" />
-            <Field name="customer_id" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount, payment_date FROM public.payment" type="Int16" />
-            <Field name="staff_id" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount, payment_date FROM public.payment" type="Int16" />
-            <Field name="rental_id" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount, payment_date FROM public.payment" type="Int32" />
-            <Field name="amount" scale="2" size="7" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount, payment_date FROM public.payment" type="FixedDecimal" />
-            <Field name="payment_date" size="19" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount, payment_date FROM public.payment" type="DateTime" />
+            <Field name="payment_id" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount,&#xA;       payment_date AT TIME ZONE 'UTC' AS payment_date&#xA;FROM public.payment" type="Int32" />
+            <Field name="customer_id" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount,&#xA;       payment_date AT TIME ZONE 'UTC' AS payment_date&#xA;FROM public.payment" type="Int16" />
+            <Field name="staff_id" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount,&#xA;       payment_date AT TIME ZONE 'UTC' AS payment_date&#xA;FROM public.payment" type="Int16" />
+            <Field name="rental_id" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount,&#xA;       payment_date AT TIME ZONE 'UTC' AS payment_date&#xA;FROM public.payment" type="Int32" />
+            <Field name="amount" scale="2" size="7" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount,&#xA;       payment_date AT TIME ZONE 'UTC' AS payment_date&#xA;FROM public.payment" type="FixedDecimal" />
+            <Field name="payment_date" size="19" source="File: SELECT payment_id, customer_id, staff_id, rental_id, amount,&#xA;       payment_date AT TIME ZONE 'UTC' AS payment_date&#xA;FROM public.payment" type="DateTime" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -161,9 +163,6 @@
           <DefaultAnnotationText>payment.yxdb</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
@@ -173,13 +172,13 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_f1149dc666aa4ad4866afec909f90343~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_287a976890f84600b233b09dbaec94ac~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
             <ViewSize value="100" />
             <View1>
-              <DefaultTab>Data</DefaultTab>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
@@ -212,7 +211,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -255,9 +254,6 @@
           <DefaultAnnotationText>inventory.yxdb</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
@@ -267,13 +263,13 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_504c58d0d9124c57bb9d537915bda33c~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_e2ed07102b0a4a33ac36795acf08b1ec~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
             <ViewSize value="100" />
             <View1>
-              <DefaultTab>Data</DefaultTab>
+              <DefaultTab>Profile</DefaultTab>
               <Hints>
                 <Table />
               </Hints>
@@ -306,7 +302,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -355,9 +351,6 @@
           <DefaultAnnotationText>film.yxdb</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
@@ -367,7 +360,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_779d313310534f1bae7a0f59cdcf610e~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_3825a46f71894a09b3480cc263d7fde5~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -406,7 +399,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -453,7 +446,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_f03071fe318d48518dad16362acb97e7~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_4901b92ccc494761b678d8b8e8a4e782~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -492,7 +485,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -539,7 +532,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_f66ecd54837c486195ccc0fe5f16f1f8~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_2e310ee077c84a6e9fcba8e6d2b444d3~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -578,7 +571,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -625,7 +618,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_4aedbb2d776e4736ba299ed6353b3719~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_c3423bbfd99a4056bdf4586213f42df0~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -664,7 +657,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -712,7 +705,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_01b38fbbd9de483994df4c3e25b9efd7~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_6589f5fb5c7b4fa1837aae760d24f353~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -751,7 +744,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -793,9 +786,6 @@
           <DefaultAnnotationText>film_actor.yxdb</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
@@ -805,7 +795,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_976b664e94ab48859b3d76bf4f3c9df9~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_73e57a5bea9542849d443f8008e942e6~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -844,7 +834,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -895,7 +885,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_af41abb257be42b483f901ecdeeb81e9~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_f29beea6e81946faa30cb4a46a29da3a~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -934,7 +924,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -981,7 +971,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_bf564f0fa47042fdbfb377cf7a5fe635~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_6422130f75b1484baa7effff7e37cf99~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -1020,7 +1010,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -1068,7 +1058,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_5cc782a5b3cf422789ea677f9db69592~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_38cae651a71049d1b92f89149ada0fb0~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -1107,7 +1097,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -1154,7 +1144,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_0a48513fa99942b7a41b37cd40072c97~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_b253a8bcaddd4353bfd28625e495e46c~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -1193,7 +1183,7 @@
             <Table />
             <SessionReadOnly>True</SessionReadOnly>
             <ReadUncommitted>False</ReadUncommitted>
-            <Connection DcmType="ConnectionId" DcmTitle="Fuente_Pagila — Credencial_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">815a1259-9a26-4756-b72b-f3bc5e9277a0</Connection>
+            <Connection DcmType="ConnectionId" DcmTitle="pagila_dvd_rental — Credential_Pagila" DcmSchemaId="database-odbc-dsn-postgresql">05584fba-5b7f-4d7f-9826-a83c8584dad7</Connection>
             <NoProgress>True</NoProgress>
             <PreSQLOnConfig>True</PreSQLOnConfig>
             <PreSQL />
@@ -1240,7 +1230,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\USER\AppData\Local\Temp\Alteryx\Engine_69168_a9e93af93bbf497e93f01bdbf9fa0136_\Engine_69168_e0f4191fe5994bd38761fa027262cd0a~.yxdb</TempFile>
+          <TempFile>C:\Users\kris\AppData\Local\Temp\Alteryx\Engine_20908_1ab98f76e1e64dd181b0f7f33ba3d319_\Engine_20908_7ae83464918c47e6845483a5e5bf81d4~.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>

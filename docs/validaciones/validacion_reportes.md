@@ -1,17 +1,84 @@
 # Validación de reportes
 
-Responsable: Juan Daniel Ulate Aguilar
+Responsable: Juan Daniel Ulate Aguilar y Kristel Ramírez
 Fecha:12/11/2026
 Período de validación: 12–13/11/2026
 Última actualización: 13/11/2026
 Base del DW: DW_Invacom
 Libro: reportes/reportes_invacom.xlsx
 Consultas de validación: sql/06_validacion_reportes.sql
+Revisión: Kristel Daniela Ramírez Duarte, 13/11/2026 (conexión directa de las tablas dinámicas al DW y fechas en UTC)
 
 ## Objetivo
 
 Verificar que los reportes no presenten duplicaciones
 ni sumas incorrectas al consultar el DW.
+
+## Conexión de Excel al DW
+
+Las tablas dinámicas del libro leen directamente del DW.
+No hay copias de los datos en hojas del libro.
+
+La conexión tiene tres partes:
+
+1. **Consultas de Power Query** (`Consulta1` a `Consulta11`).
+   Cada una se conecta a SQL Server con
+   `Sql.Database("localhost", "DW_Invacom")` y autenticación
+   de Windows, y ejecuta una consulta SQL que une la tabla
+   de hechos con sus dimensiones.
+2. **Carga como "Solo conexión".** Las consultas no descargan
+   filas a ninguna hoja.
+3. **Tablas dinámicas con origen externo.** Cada tabla dinámica
+   usa como origen la conexión de su consulta
+   (`Consulta - ConsultaN`), no un rango de celdas.
+   Al usar *Datos → Actualizar todo*, los datos se vuelven
+   a leer desde SQL Server.
+
+| Hoja | Tabla dinámica | Consulta |
+|---|---|---|
+| alquileres_ingresos | AlquileresIngresos y PromedioPago | Consulta1 |
+| peliculas_mas_alquiladas | RankingPeliculas | Consulta2 |
+| ingresos_categorias | IngresosCategorias | Consulta3 |
+| clientes_mayores_pagos | RankingClientes | Consulta4 |
+| alquileres_geografia | AlquileresGeografia | Consulta5 |
+| actores_mas_alquilados | RankingActores | Consulta6 |
+| clasificacion_tienda | ClasificacionTienda | Consulta7 |
+| devoluciones_tardias | DevolucionesTardias | Consulta8 |
+| inventario_rotacion | InventarioRotacion | Consulta9 |
+| ticket_cliente_categoria | TicketClienteCategoria | Consulta10 |
+| frecuencia_clientes | IntervalosPorCliente y ClientesPorMes | Consulta11 |
+
+Excel crea una copia de la conexión por cada tabla dinámica,
+por eso el libro muestra más conexiones que consultas.
+Excel no usa el DSN `DW_Invacom`; ese DSN solo lo usa Alteryx.
+
+Para comprobar la conexión en cualquier tabla dinámica:
+*Analizar tabla dinámica → Cambiar origen de datos* muestra
+"Usar un origen de datos externo" con la conexión
+`Consulta - ConsultaN`.
+
+Las 11 consultas están cargadas como "Solo conexión"
+(*Connection only*): ninguna descarga filas a una hoja.
+
+![Consultas en Solo conexión](evidencias/consultas_solo_conexion.png)
+
+> **Pendiente:** agregar a `evidencias/` la captura del origen
+> externo de una tabla dinámica (*Cambiar origen de datos*).
+
+## Cambios del 13/11/2026 y revalidación
+
+Después de la primera validación se hicieron dos cambios:
+
+| Cambio | Detalle | Efecto en las cifras |
+|---|---|---|
+| Conexión directa | Las tablas dinámicas pasaron de leer las hojas `datos_*` a leer las conexiones al DW. Se eliminaron las 11 hojas `datos_*`. El promedio por pago pasó de fórmulas `SUMIFS` a una tabla dinámica. | Ninguno: los campos, filtros y diseño de cada tabla son los mismos. |
+| Fechas en UTC | `01_extraccion` lee `rental_date`, `return_date` y `payment_date` con `AT TIME ZONE 'UTC'`. Antes, la fecha dependía de la zona horaria de PostgreSQL en cada equipo (America/Guatemala o America/Mexico_City, que en 2005 tenía horario de verano). | Los totales no cambian. Algunos alquileres cerca de la medianoche cambian de día, así que cambian las cifras por mes y por trimestre. |
+
+Totales confirmados con el DW en UTC:
+16.044 alquileres, 67.406,56 de ingresos,
+15.861 devueltos, 8.121 devoluciones tardías (51,2 %).
+
+
 
 ## Resultados
 
@@ -38,9 +105,10 @@ ni sumas incorrectas al consultar el DW.
 
 ## Reporte de alquileres e ingresos
 
-La fuente importada contiene 16.044 identificadores de alquiler
-únicos, sin duplicados. Los totales de la tabla dinámica
-coinciden con los valores comprobados en el DW.
+La tabla dinámica consulta directamente el DW y contiene
+16.044 identificadores de alquiler únicos, sin duplicados.
+Los totales de la tabla dinámica coinciden con los valores
+comprobados en el DW.
 
 ![Alquileres e ingresos](evidencias/reporte_alquileres_ingresos.png)
 
@@ -61,6 +129,11 @@ exactamente y los promedios coinciden a dos decimales.
 
 El promedio se calcula dividiendo los ingresos del grupo
 entre su cantidad de pagos.
+
+Desde el 13/11/2026, los ingresos y los pagos por año, mes
+y tienda salen de una tabla dinámica (PromedioPago) conectada
+al DW, y una fórmula a su derecha divide ingresos entre pagos.
+Antes eran fórmulas `SUMIFS` sobre una hoja de datos.
 
 ![Promedios en SQL Server](evidencias/promedio_pago_sql.png)
 
@@ -234,6 +307,21 @@ dinámicas y repetir las validaciones.
 
 Si aparecen nuevos períodos o aumenta el detalle, se deben
 revisar y ampliar las fórmulas externas a las tablas dinámicas
-de promedio por pago, devoluciones e inventario.
+de promedio por pago, devoluciones e inventario. Son las
+fórmulas de porcentaje y de promedio a la derecha de cada tabla.
 
 El inventario debe consultarse para un solo año y trimestre.
+
+Para que Excel muestre datos, cada equipo debe tener el DW
+cargado con el ETL completo. Las fechas se extraen en UTC,
+así que todos los equipos obtienen las mismas cifras.
+
+Al dar formato al libro no se deben volver a cargar las
+consultas a hojas ni crear tablas dinámicas desde rangos.
+Una tabla dinámica nueva se crea con
+*Datos → Conexiones existentes → Consulta - ConsultaN →
+Informe de tabla dinámica*.
+
+Si una consulta queda en "Waiting for localhost/DW_Invacom"
+al actualizar (pasa con Consulta9 y Consulta11, que usan `WITH`),
+se presiona Esc y se vuelve a actualizar.

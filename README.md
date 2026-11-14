@@ -42,7 +42,7 @@ Universidad Técnica Nacional — Sede San Carlos.
 | 3 | `03_dimensiones.yxmd` | Carga de dimensiones con llaves sustitutas |
 | 4 | `04_hechos.yxmd` | Carga de la tabla de hechos |
 
-_Los nombres son una propuesta; ajustarlos cuando existan los workflows._
+Entre `02_limpieza` y `03_dimensiones` se ejecuta `dim_fecha.yxmd`, que genera y carga el calendario. El orden completo, los requisitos (DSN `pagila_local` y `DW_Invacom`) y los resultados esperados están en `docs/validaciones/ejecucion_ETL.md` y en el `.md` de cada workflow.
 
 ## Cómo trabajamos
 
@@ -55,9 +55,9 @@ _Los nombres son una propuesta; ajustarlos cuando existan los workflows._
 
 ## Entregables
 
-- [ ] Modelo dimensional (`docs/modelo/`)
-- [ ] Workflows de ETL funcionando de punta a punta (`alteryx/workflows/`)
-- [ ] Scripts del DW (`sql/`)
-- [ ] Tablas dinámicas en Excel conectadas al DW (`reportes/`)
+- [x] Modelo dimensional (`docs/modelo/`)
+- [x] Workflows de ETL funcionando de punta a punta (`alteryx/workflows/`)
+- [x] Scripts del DW (`sql/`)
+- [x] Tablas dinámicas en Excel conectadas al DW (`reportes/`)
 - [ ] Documento final en APA 7 (`docs/entrega/`)
 - [ ] Evidencia semanal de sprints (`docs/sprints/`)

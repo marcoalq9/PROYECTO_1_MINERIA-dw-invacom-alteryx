@@ -19,7 +19,7 @@
           <RecordCount value="4285" />
         </Configuration>
         <Annotation DisplayMode="0">
-          <Name />
+          <Name>Vacía y carga dbo.dim_fecha</Name>
           <DefaultAnnotationText />
           <Left value="False" />
         </Annotation>
@@ -113,18 +113,16 @@ dia = DateTimeDay([fecha...</DefaultAnnotationText>
       </GuiSettings>
       <Properties>
         <Configuration>
-          <File />
+          <File FileFormat="23">odbc:DSN=DW_Invacom|||dbo.dim_fecha</File>
           <Passwords />
           <Disable>False</Disable>
-          <FormatSpecificOptions UseDcm="true" MaxRecords="" Format="23">
+          <FormatSpecificOptions>
             <SpatialObjSize>8000</SpatialObjSize>
             <TableStyle>Quoted</TableStyle>
             <TransactionMessages>False</TransactionMessages>
             <Geometry>True</Geometry>
-            <Table>dbo.dim_fecha</Table>
             <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
             <OutputOption>Append</OutputOption>
-            <Connection DcmType="ConnectionId" DcmTitle="Microsoft SQL Server ODBC DSN-less — SQL_Invacom_Local" DcmSchemaId="database-odbc-mssql">e65fce4e-e2f4-433c-8257-2b617b3d02bd</Connection>
             <Projection />
             <PostSQL />
             <TransactionSize>10000</TransactionSize>
@@ -134,8 +132,7 @@ dia = DateTimeDay([fecha...</DefaultAnnotationText>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>dcm:Microsoft SQL Server ODBC DSN-less — SQL_Invacom_Local
-Table=dbo.dim_fecha</DefaultAnnotationText>
+          <DefaultAnnotationText />
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -167,7 +164,7 @@ Table=dbo.dim_fecha</DefaultAnnotationText>
     <Annotation on="True" includeToolName="False" />
     <ConvErrorLimit value="10" />
     <ConvErrorLimit_Stop value="False" />
-    <CancelOnError value="False" />
+    <CancelOnError value="True" />
     <DisableBrowse value="False" />
     <EnablePerformanceProfiling value="False" />
     <RunWithE2 value="True" />
