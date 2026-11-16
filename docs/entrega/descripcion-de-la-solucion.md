@@ -1,7 +1,7 @@
 # Descripción de la solución
 
-> Jira: DWI-55 · Responsable: Marco Andrey López Quesada
-> Sección del documento final. **Pendiente:** completar el apartado de reportes cuando esté listo el libro de Excel (DWI-42 y DWI-43).
+> Jira: DWI-55 · Responsables: Marco Andrey López Quesada y Kristel Ramírez
+> Sección del documento final.
 
 ## Arquitectura
 
@@ -78,7 +78,81 @@ Los totales cargados también coinciden con las consultas de referencia: ingreso
 
 ## Reportes
 
-> **[PENDIENTE]** Completar cuando esté listo el libro de Excel (DWI-42 y DWI-43): cómo se conecta Excel al data warehouse, qué tablas dinámicas responde cada pregunta de negocio y una captura de cada una.
+Los reportes están en el libro `reportes/reportes_invacom.xlsx`, con una hoja por tema y tablas dinámicas que responden las 12 preguntas de negocio (`docs/analisis/04-preguntas-de-negocio.md`).
+
+### Conexión de Excel al data warehouse
+
+Las tablas dinámicas leen directamente del data warehouse; el libro no guarda copias de los datos en sus hojas. La conexión se arma en tres pasos:
+
+1. **Consultas de Power Query.** Las consultas `Consulta1` a `Consulta11` se conectan a SQL Server con `Sql.Database("localhost", "DW_Invacom")` y autenticación de Windows. Cada una ejecuta una consulta SQL que une la tabla de hechos con las dimensiones que necesita su reporte.
+2. **Carga como "Solo conexión".** Ninguna consulta descarga filas a una hoja; solo dejan disponible la conexión.
+3. **Tablas dinámicas con origen externo.** Cada tabla dinámica usa como origen la conexión de su consulta (`Consulta - ConsultaN`) y no un rango de celdas. Con *Datos → Actualizar todo*, Excel vuelve a leer los datos desde SQL Server.
+
+Se eligió esta forma de conexión por tres razones. 
+1. El data warehouse es la única fuente de los números: si se vuelve a ejecutar el ETL, basta con actualizar el libro, y no hay hojas intermedias que puedan quedar desactualizadas.
+
+2. Cada consulta recorre el modelo estrella desde la tabla de hechos hacia sus dimensiones, que es el uso para el que se diseña un modelo dimensional: filtrar y agrupar las medidas por los atributos de las dimensiones.
+
+3. Tercero, Excel no necesita el DSN `DW_Invacom`, que solo usa Alteryx, por lo que el libro funciona en cualquier equipo que tenga el data warehouse cargado.
+
+![Consultas cargadas como Solo conexión](../validaciones/evidencias/consultas_solo_conexion.png)
+
+### Tablas dinámicas por pregunta de negocio
+
+| # | Pregunta de negocio (resumen) | Hoja | Tabla dinámica | Consulta |
+|---|---|---|---|---|
+| 1 | Monto cobrado y promedio por pago, por mes y tienda | `alquileres_ingresos` | AlquileresIngresos y PromedioPago | Consulta1 |
+| 2 | Alquileres por mes y tienda | `alquileres_ingresos` | AlquileresIngresos | Consulta1 |
+| 3 | 10 películas más alquiladas | `peliculas_mas_alquiladas` | RankingPeliculas | Consulta2 |
+| 4 | Ingresos por categoría y mes | `ingresos_categorias` | IngresosCategorias | Consulta3 |
+| 5 | 10 clientes con mayores pagos | `clientes_mayores_pagos` | RankingClientes | Consulta4 |
+| 6 | Alquileres por país y ciudad del cliente | `alquileres_geografia` | AlquileresGeografia | Consulta5 |
+| 7 | 10 actores cuyas películas se alquilan más | `actores_mas_alquilados` | RankingActores | Consulta6 |
+| 8 | Alquileres e ingresos por clasificación y tienda | `clasificacion_tienda` | ClasificacionTienda | Consulta7 |
+| 9 | Porcentaje de devoluciones fuera de plazo por tienda y mes | `devoluciones_tardias` | DevolucionesTardias | Consulta8 |
+| 10 | Copias por película y tienda, y porcentaje sin alquileres en el trimestre | `inventario_rotacion` | InventarioRotacion | Consulta9 |
+| 11 | Ticket promedio por cliente y categoría | `ticket_cliente_categoria` | TicketClienteCategoria | Consulta10 |
+| 12 | Días entre alquileres y clientes nuevos y recurrentes por mes | `frecuencia_clientes` | IntervalosPorCliente y ClientesPorMes | Consulta11 |
+
+### Decisiones de cálculo
+
+Algunas preguntas no se responden con una suma directa, y para ellas se tomaron estas decisiones:
+
+- **Porcentajes y promedios a partir de totales.** El promedio por pago, el ticket promedio y el porcentaje de devoluciones tardías se calculan dividiendo los totales del grupo (por ejemplo, ingresos entre pagos), no promediando porcentajes o promedios de grupos menores, que daría un resultado sesgado. Por eso el porcentaje general de devoluciones tardías es 51,2 % (8 121 de 15 861 devueltos) y el ticket general es 4,20. Estos cálculos son fórmulas ubicadas a la derecha de las tablas dinámicas, que toman los totales que la tabla dinámica trae del data warehouse.
+- **Indicadores de 0 o 1.** Los indicadores de la tabla de hechos (devuelto, devuelto fuera de plazo y pago de cero) se suman para contar casos, sin necesidad de filtros adicionales en cada reporte.
+- **Actores sin total general.** Un alquiler incluye a todos los actores de la película, así que la consulta de actores cuenta alquileres distintos por actor (`COUNT(DISTINCT)`) a través de la tabla puente. El reporte no muestra total general, porque sumar por actor contaría el mismo alquiler varias veces (Kimball & Ross, 2013).
+- **Rankings con empates.** El ranking de películas incluye los empates del décimo lugar, por lo que muestra 16 películas. Los clientes se agrupan por su identificador, no por nombre, para no mezclar personas con el mismo nombre.
+- **Grupos sin datos.** Los meses sin devoluciones muestran "Sin devoluciones" en lugar de 0 %, para no confundir la falta de casos con un desempeño perfecto. El inventario se consulta para un solo año y trimestre a la vez.
+
+### Validación de los reportes
+
+Cada tabla dinámica se comparó con una consulta escrita directamente sobre el data warehouse (`sql/06_validacion_reportes.sql`). En los 12 reportes coinciden los conteos exactos y los importes, porcentajes y promedios a dos decimales; los totales de 16 044 alquileres y 67 406,56 de ingresos son los mismos que en la validación del ETL. El detalle está en `docs/validaciones/validacion_reportes.md`.
+
+### Capturas
+
+![Alquileres e ingresos por mes y tienda](../validaciones/evidencias/reporte_alquileres_ingresos.png)
+
+![Promedio por pago](../validaciones/evidencias/promedio_pago_excel.png)
+
+![Películas más alquiladas](../validaciones/evidencias/ranking_peliculas_excel.png)
+
+![Ingresos por categoría](../validaciones/evidencias/categorias_excel.png)
+
+![Clientes con mayores pagos](../validaciones/evidencias/clientes_excel.png)
+
+![Alquileres por país y ciudad](../validaciones/evidencias/geografia_excel.png)
+
+![Actores con más alquileres](../validaciones/evidencias/actores_excel.png)
+
+![Clasificación y tienda](../validaciones/evidencias/clasificacion_excel.png)
+
+![Devoluciones tardías](../validaciones/evidencias/devoluciones_excel.png)
+
+![Inventario y rotación](../validaciones/evidencias/inventario_excel.png)
+
+![Ticket por cliente y categoría](../validaciones/evidencias/ticket_excel.png)
+
+![Frecuencia de alquiler y clientes por mes](../validaciones/evidencias/frecuencia_excel.png)
 
 ## Referencias
 
