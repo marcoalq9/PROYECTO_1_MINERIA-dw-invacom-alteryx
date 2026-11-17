@@ -13,7 +13,7 @@ Universidad Técnica Nacional — Sede San Carlos.
 | Juan Daniel Ulate Aguilar | @Juanulate01 | Desarrollo |
 | Kristel Daniela Ramírez Duarte | @ikrisr | Scrum Master |
 
-- **Coordinador** (nombrado por el profesor):
+- **Coordinadores** Juan Daniel Ulate Aguilar y Marco Andrey López Quesada. Centralizan las consultas del equipo con el profesor.
 - **Scrum Master:** Kristel Daniela Ramírez Duarte
 - **Product Owner:** el profesor
 
@@ -49,6 +49,7 @@ Entre `02_limpieza` y `03_dimensiones` se ejecuta `dim_fecha.yxmd`, que genera y
 - **Sprints de una semana.** de miércoles a miércoles. El Sprint Planning es cada miércoles y cada sprint termina con un entregable concreto en este repo.
 - **Daily Asíncrono** por el chat del grupo: que hice, que haré y que me bloquea 
 - **Tablero en Jira:** proyecto `DWI` en https://marcolopezquesada15.atlassian.net 
+- **Evidencia de cada sprint:** `docs/sprints/` (resumen en `docs/sprints/README.md`).
 - **Commits:** todos los integrantes hacen commits cada semana con sus propios aportes.
 - **Mensajes de commit** en español y en imperativo, por ejemplo: `Agrega workflow de limpieza de clientes`.
 - **Ramas:** una rama por tarea (`feature/dim-tiempo`), fusionada a `main` por pull request.
