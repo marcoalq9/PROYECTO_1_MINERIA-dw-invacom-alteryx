@@ -30,6 +30,7 @@ Universidad Técnica Nacional — Sede San Carlos.
 │   ├── sprints/       # Evidencia semanal: planning, capturas del tablero, review
 │   └── entrega/       # Documento final en APA 7
 ├── reportes/          # Libros de Excel con tablas dinámicas conectadas al DW
+├── powerbi/           # Proyecto 2: dashboard de KPIs en Power BI (.pbix)
 └── datos/             # Notas sobre la BD fuente (no subir respaldos grandes)
 ```
 
@@ -43,6 +44,10 @@ Universidad Técnica Nacional — Sede San Carlos.
 | 4 | `04_hechos.yxmd` | Carga de la tabla de hechos |
 
 Entre `02_limpieza` y `03_dimensiones` se ejecuta `dim_fecha.yxmd`, que genera y carga el calendario. El orden completo, los requisitos (DSN `pagila_local` y `DW_Invacom`) y los resultados esperados están en `docs/validaciones/ejecucion_ETL.md` y en el `.md` de cada workflow.
+
+## Proyecto 2 · Dashboard de KPIs en Power BI
+
+Tablero de control con los 8 KPIs gerenciales (2 por integrante), conectado a `DW_Invacom`. El archivo está en `powerbi/Dashboard_Invacom.pbix`. Las instrucciones para conectarlo desde cada computadora y las reglas para editar el `.pbix` en equipo están en [`powerbi/README.md`](powerbi/README.md).
 
 ## Cómo trabajamos
 
@@ -62,3 +67,8 @@ Entre `02_limpieza` y `03_dimensiones` se ejecuta `dim_fecha.yxmd`, que genera y
 - [x] Tablas dinámicas en Excel conectadas al DW (`reportes/`)
 - [ ] Documento final en APA 7 (`docs/entrega/`)
 - [ ] Evidencia semanal de sprints (`docs/sprints/`)
+
+**Proyecto 2**
+
+- [x] Power BI conectado al DW (`powerbi/`)
+- [ ] Dashboard de KPIs terminado (`powerbi/Dashboard_Invacom.pbix`)
