@@ -9,6 +9,7 @@ Tablero de control con los KPIs gerenciales de Invacom Inc S.A., construido en *
 | Archivo | Contenido |
 |---|---|
 | `Dashboard_Invacom.pbix` | Informe de Power BI con las tablas del DW importadas |
+| `medidas/k7_k8.md` | Medidas DAX de K7 y K8, valores esperados y comprobación contra SQL (DWI-88) |
 
 ## Conexión al DW
 
