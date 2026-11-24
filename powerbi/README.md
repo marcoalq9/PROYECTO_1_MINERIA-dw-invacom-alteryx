@@ -11,6 +11,17 @@ Tablero de control con los KPIs gerenciales de Invacom Inc S.A., construido en *
 | `Dashboard_Invacom.pbix` | Informe de Power BI con las tablas del DW importadas |
 | `medidas/k7_k8.md` | Medidas DAX de K7 y K8, valores esperados y comprobación contra SQL (DWI-88) |
 
+## Visuales de AppSource
+
+El enunciado pide al menos dos gráficos que no vienen con Power BI. Se instalaron dos visuales gratuitos y certificados por Microsoft (*PBI Certified*), que muestran el valor de un KPI contra su meta con zonas de color (DWI-83):
+
+| Visual | Proveedor | Uso previsto |
+|---|---|---|
+| **Bullet Chart** | Microsoft Corporation | Barra con el valor real, la marca de la meta y las zonas bueno/regular/malo |
+| **Tachometer** | Annik Inc | Velocímetro con el valor real dentro de rangos de color |
+
+Quedan guardados dentro del `.pbix` (`Report/CustomVisuals`), así que no hay que instalarlos en cada computadora: aparecen al final del panel *Visualizaciones*. Para instalar otro visual de AppSource hay que iniciar sesión en Power BI con el correo institucional.
+
 ## Conexión al DW
 
 | Configuración | Valor |
