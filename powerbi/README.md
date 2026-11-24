@@ -9,6 +9,7 @@ Tablero de control con los KPIs gerenciales de Invacom Inc S.A., construido en *
 | Archivo | Contenido |
 |---|---|
 | `Dashboard_Invacom.pbix` | Informe de Power BI con las tablas del DW importadas |
+| `medidas/base.md` | Medidas DAX base del equipo: Ingresos, Alquileres, Clientes activos, Copias e Ingresos mes anterior (DWI-84) |
 | `medidas/k7_k8.md` | Medidas DAX de K7 y K8, valores esperados y comprobación contra SQL (DWI-88) |
 
 ## Visuales de AppSource
