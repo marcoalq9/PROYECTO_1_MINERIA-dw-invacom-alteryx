@@ -10,8 +10,20 @@ Tablero de control con los KPIs gerenciales de Invacom Inc S.A., construido en *
 |---|---|
 | `Dashboard_Invacom.pbix` | Informe de Power BI con las tablas del DW importadas |
 | `medidas/base.md` | Medidas DAX base del equipo: Ingresos, Alquileres, Clientes activos, Copias e Ingresos mes anterior (DWI-84) |
-| `medidas/k1_k2.md` | Medidas DAX de K1 y K2, valores esperados y comprobación contra SQL (DWI-85) |
+| `medidas/k1_k2.md` | Medidas DAX de K1 y K2, valores esperados, comprobación contra SQL (DWI-85) y medidas de las tarjetas y gráficos de su página (DWI-90) |
 | `medidas/k7_k8.md` | Medidas DAX de K7 y K8, valores esperados y comprobación contra SQL (DWI-88) |
+
+## Páginas y navegación
+
+El tablero tiene una página por pareja de KPIs: **Ingresos** (K1 y K2), **Clientes · K3 y K4**, **Inventario · K5 y K6** y **Devoluciones · K7 y K8**. *Página 1* está oculta.
+
+Cada página trae a la izquierda el mismo menú lateral (DWI-90): un fondo oscuro de 250 px de ancho, el título *INVACOM DASHBOARD* y un **navegador de páginas** de Power BI. El navegador se arma solo con los nombres de las páginas visibles, así que si alguien cambia el nombre de una página o agrega otra, el menú se actualiza sin tocarlo.
+
+Para que todas las páginas se vean iguales:
+
+- Poner los visuales a la derecha del menú, desde **x = 280**. El lienzo es de 1920 × 1080.
+- Dejar arriba el título de la página (x = 280, y = 20) y los segmentadores de mes y tienda.
+- No mover ni borrar el menú. Si se borra por error, copiarlo de otra página (fondo, título y navegador) y pegarlo: queda en la misma posición.
 
 ## Visuales de AppSource
 
