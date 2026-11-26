@@ -9,6 +9,8 @@ Orden sugerido de ejecución:
 5. `06_validacion_reportes.sql` — consultas para comparar con las tablas dinámicas de Excel
 6. `07_validacion_k7_k8.sql` — valores de K7 y K8 por tienda y mes, para comparar con las medidas DAX de Power BI (DWI-88)
 7. `08_validacion_k1_k2.sql` — valores de K1 y K2 por tienda y mes, para comparar con las medidas DAX de Power BI (DWI-85)
+8. `09_validacion_k5_k6.sql` — validación de rotación y copias sin rotación
+9. [`10_validacion_k3_k4.sql`](10_validacion_k3_k4.sql) — validación mensual por tienda y total para K3 y K4, con cobertura y estado de comparación. Ejecutar en SQL Server con el DW cargado y ajustar el intervalo para revisar otros meses.
 
 `05_validacion_conteos_totales.sql` se ejecuta en **PostgreSQL** sobre la base fuente
 (`pagila_dvd_rental`), no en el DW: da los conteos antes de la limpieza.
