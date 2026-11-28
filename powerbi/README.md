@@ -42,7 +42,7 @@ El enunciado pide al menos dos gráficos que no vienen con Power BI. Se instalar
 
 En la página **Devoluciones · K7 y K8** el Tachometer muestra K7 contra su meta y el Bullet Chart muestra K8 por mes contra su meta (DWI-93).
 
-El QA confirmó ambos en uso y renderizados, además de Deneb y Bullet Chart en Clientes. El árbol usa el visual nativo de descomposición; el mapa usa el visual nativo `Map`, con País → Ciudad y burbujas por Alquileres. Mapa tiene menú, cabecera y segmentadores independientes de mes y tienda. El servicio de mapas debe estar habilitado por el usuario en cada computadora.
+El QA confirmó ambos en uso y renderizados, además de Deneb y Bullet Chart en Clientes. El árbol usa el visual nativo de descomposición; el mapa usa el visual nativo **Azure Maps** (sucesor del visual `Map` de Bing, que Microsoft está retirando), con País → Ciudad, burbujas por Alquileres e Ingresos en la información sobre herramientas. Mapa tiene menú, cabecera y segmentadores independientes de mes y tienda. Para que se muestre se necesitan Internet y sesión iniciada en Power BI Desktop: ver el paso 7 de *Cómo abrirlo en su computadora*.
 
 Quedan guardados dentro del `.pbix` (`Report/CustomVisuals`), así que no hay que instalarlos en cada computadora: aparecen al final del panel *Visualizaciones*. Para instalar otro visual de AppSource hay que iniciar sesión en Power BI con el correo institucional.
 
@@ -68,6 +68,12 @@ Tablas del DW (scripts en `sql/`): `fact_alquiler`, `fact_inventario`, `dim_fech
 4. Cambiar `Servidor` por el nombre de su instancia, el mismo que usa para entrar en SSMS (por ejemplo `localhost` o `NOMBRE-PC\SQLEXPRESS`).
 5. **Cerrar y aplicar** y luego **Actualizar**.
 6. Si aparece el aviso **"Compatibilidad con cifrado"**, dar **Aceptar** para conectarse sin cifrado.
+7. Revisar la página **Mapa**. Si sale en blanco o con error:
+   - «Para mostrar los objetos visuales de Azure Maps, inicie sesión» → iniciar sesión en Power BI Desktop (arriba a la derecha) con la cuenta institucional.
+   - «No están habilitados para su organización» → lo bloquea el administrador de la cuenta, no el archivo; cerrar sesión o usar otra cuenta.
+   - «Los objetos visuales de mapa … están deshabilitados» → *Archivo → Opciones y configuración → Opciones → Global → Seguridad* → marcar **«Usar objetos visuales de mapa y de mapa coroplético»**.
+
+   La captura de respaldo está en `docs/validaciones/evidencias/qa_mapa_azure.png` y la explicación en el documento final (`docs/entrega/metodologia-kpis.md`, sección *Requisitos para visualizar la página Mapa*).
 
 ## Verificación de la carga
 

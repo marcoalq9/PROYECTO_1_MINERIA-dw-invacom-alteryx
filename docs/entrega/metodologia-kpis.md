@@ -172,6 +172,21 @@ Los resultados de los KPIs no deben interpretarse únicamente por el color de un
 
 Las medidas de Power BI deben contrastarse con consultas SQL sobre `DW_Invacom` usando los mismos filtros. Esto permite comprobar que los totales, porcentajes y promedios coincidan con los datos del proyecto anterior. **Los ocho KPIs ya cuentan con aprobación del profesor**; esta comprobación se realiza para asegurar que se implementen correctamente.
 
+## Requisitos para visualizar la página Mapa
+
+La página **Mapa** responde la pregunta de negocio 6 con el visual nativo **Azure Maps** de Power BI. Microsoft está retirando el visual de mapa anterior, basado en Bing Maps, y recomienda migrar a Azure Maps; por eso el tablero usa el visual nuevo. Muestra los alquileres por país y ciudad de residencia del cliente: el tamaño de cada burbuja corresponde a los alquileres del período, la información sobre herramientas agrega los ingresos y las flechas del encabezado permiten bajar de país a ciudad.
+
+A diferencia del resto de los gráficos, Azure Maps necesita un servicio en línea de Microsoft. Si el mapa aparece en blanco o con un mensaje de error al abrir `Dashboard_Invacom.pbix`, se deben revisar estos puntos:
+
+1. **Conexión a Internet.** El mapa descarga el fondo geográfico desde los servidores de Microsoft.
+2. **Sesión iniciada en Power BI Desktop.** Si aparece el mensaje «Para mostrar los objetos visuales de Azure Maps, inicie sesión», hay que iniciar sesión con una cuenta profesional o educativa (botón *Iniciar sesión*, arriba a la derecha).
+3. **Azure Maps habilitado en la organización.** Si con la sesión iniciada el mensaje indica que el visual no está habilitado para la organización, el bloqueo depende del administrador del inquilino de Power BI y no del archivo. En ese caso se puede cerrar la sesión o usar otra cuenta.
+4. **Opción de seguridad de mapas.** Si el mensaje indica que los objetos visuales de mapa están deshabilitados, hay que ir a *Archivo → Opciones y configuración → Opciones → Global → Seguridad*, marcar **«Usar objetos visuales de mapa y de mapa coroplético»**, aceptar y volver a abrir la página.
+
+Estas condiciones dependen de la computadora y de la cuenta de quien abre el archivo, no de los datos ni de las medidas del modelo. Como respaldo, la siguiente captura muestra la página funcionando con julio de 2005 y la tienda 1 seleccionados:
+
+![Página Mapa con Azure Maps funcionando](../validaciones/evidencias/qa_mapa_azure.png)
+
 ## Conclusión
 
 La metodología seleccionada establece un proceso ordenado para relacionar las necesidades de la gerencia con indicadores medibles. Partir de las preguntas de negocio, definir las fórmulas, documentar los criterios S.M.A.R.T. y comprobar los cálculos ayuda a construir un tablero que no se limite a mostrar gráficos, sino que aporte información útil para tomar decisiones.
