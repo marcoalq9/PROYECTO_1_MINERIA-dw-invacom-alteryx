@@ -13,10 +13,15 @@ Tablero de control con los KPIs gerenciales de Invacom Inc S.A., construido en *
 | `medidas/k1_k2.md` | Medidas DAX de K1 y K2, valores esperados, comprobación contra SQL (DWI-85) y medidas de las tarjetas y gráficos de su página (DWI-90) |
 | `medidas/k7_k8.md` | Medidas DAX de K7 y K8, valores esperados y comprobación contra SQL (DWI-88), visuales de su página (DWI-93) y página de contexto (DWI-96) |
 | `medidas/matriz_funciones_dax.md` | Matriz de control de funciones DAX por integrante (DWI-89) |
+| `medidas/k3_k4.md` | Medidas y visuales de clientes |
+| `medidas/k5_k6.md` | Medidas y comparaciones mensuales de inventario |
+| `../docs/validaciones/proyecto2/qa_dashboard.md` | QA del 27/11/2026: checklist, evidencias y observaciones abiertas; K2/K3 sin cambios por indicación del usuario |
 
 ## Páginas y navegación
 
-El tablero tiene una página por pareja de KPIs: **Ingresos** (K1 y K2), **Clientes · K3 y K4**, **Inventario · K5 y K6**, **Devoluciones · K7 y K8** y **Contexto** (preguntas de negocio 3, 4, 7 y 8). *Página 1* está oculta. Ninguna página pasa de 6 gráficos.
+El PBIX revisado el 27/11/2026 tiene siete páginas visibles: **Ingresos** (K1 y K2), **Clientes** (K3 y K4), **Inventario** (K5 y K6), **Devoluciones** (K7 y K8), **Contexto** (preguntas 3, 4, 7 y 8), **Árbol de ingresos** y **Mapa** (pregunta 6). No contiene una Página 1 oculta en esta versión.
+
+El [QA](../docs/validaciones/proyecto2/qa_dashboard.md) registra los objetos analíticos por página. Inventario tiene siete si se cuentan sus cuatro tarjetas, dos gráficos y tabla individualmente; hay que contrastar con el enunciado original si el máximo de seis incluye esos objetos. No se debe afirmar cumplimiento de ese límite sin aclararlo.
 
 Cada página trae a la izquierda el mismo menú lateral (DWI-90): un fondo oscuro de 250 px de ancho, el título *INVACOM DASHBOARD* y un **navegador de páginas** de Power BI. El navegador se arma solo con los nombres de las páginas visibles, así que si alguien cambia el nombre de una página o agrega otra, el menú se actualiza sin tocarlo.
 
@@ -36,6 +41,8 @@ El enunciado pide al menos dos gráficos que no vienen con Power BI. Se instalar
 | **Tachometer** | Annik Inc | Velocímetro con el valor real dentro de rangos de color |
 
 En la página **Devoluciones · K7 y K8** el Tachometer muestra K7 contra su meta y el Bullet Chart muestra K8 por mes contra su meta (DWI-93).
+
+El QA confirmó ambos en uso y renderizados, además de Deneb y Bullet Chart en Clientes. El árbol usa el visual nativo de descomposición; el mapa usa el visual nativo `Map`, con País → Ciudad y burbujas por Alquileres. Mapa tiene menú, cabecera y segmentadores independientes de mes y tienda. El servicio de mapas debe estar habilitado por el usuario en cada computadora.
 
 Quedan guardados dentro del `.pbix` (`Report/CustomVisuals`), así que no hay que instalarlos en cada computadora: aparecen al final del panel *Visualizaciones*. Para instalar otro visual de AppSource hay que iniciar sesión en Power BI con el correo institucional.
 

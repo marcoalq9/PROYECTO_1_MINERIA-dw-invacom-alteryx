@@ -3,7 +3,11 @@
 > Jira: DWI-89 · Responsable: Marco Andrey López Quesada
 > Requisito del enunciado: usar al menos 6 funciones DAX distintas. Fuente: las medidas de `Dashboard_Invacom.pbix`, leídas del modelo el 26/11/2026.
 
-**Resultado:** el equipo usa **30 funciones DAX distintas** en **78 medidas**, y cada integrante usa al menos 16 por su cuenta. El requisito (mínimo 6) se cumple con holgura.
+**Registro histórico del 26/11/2026:** el inventario original contabilizó **30 elementos de lenguaje** en **78 medidas**, incluyendo `VAR/RETURN`. Estas dos palabras son palabras clave, no funciones, y no deben contarse para demostrar el mínimo de seis funciones.
+
+**Revisión actual del 27/11/2026:** `INFO.VIEW.MEASURES()` devuelve **92 medidas, todas en estado Valid**. Se verificaron directamente ocho funciones distintas: `CALCULATE` (19 medidas), `DISTINCTCOUNT` (1), `DIVIDE` (8), `EXCEPT` (1), `FORMAT` (23), `PREVIOUSMONTH` (8), `REMOVEFILTERS` (10) y `SUM` (6). Esta muestra demuestra el mínimo sin contar palabras clave; no es un recuento exhaustivo de todas las funciones actuales. Ver [QA y evidencias](../../docs/validaciones/proyecto2/qa_dashboard.md).
+
+Las tablas siguientes conservan el desglose histórico por integrante del 26/11; sus cantidades no representan el inventario actual completo y no se reasignaron autorías durante el QA.
 
 ## Funciones por integrante
 
